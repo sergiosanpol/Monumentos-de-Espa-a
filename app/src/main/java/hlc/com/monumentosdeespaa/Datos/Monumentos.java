@@ -22,6 +22,10 @@ public class Monumentos implements Parcelable{
     private String comunidad;
     private LatLng latLng;
 
+    public Monumentos(){
+
+    }
+
     public Monumentos(int id_monumentos, String nombre, Date anno, String localidad, String provincia, String comunidad, double lat, double lng) {
         this.id_monumentos = id_monumentos;
         this.nombre = nombre;
