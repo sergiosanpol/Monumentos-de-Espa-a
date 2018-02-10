@@ -22,8 +22,9 @@ public class Monumentos implements Parcelable{
     private String comunidad;
     private LatLng latLng;
 
-    public Monumentos(){
-
+    @Override
+    public String toString() {
+        return id_monumentos + " " + nombre + " " + anno + " " + localidad + " " + provincia + " " + comunidad + " " + latLng.latitude + " " + latLng.longitude;
     }
 
     public Monumentos(int id_monumentos, String nombre, Date anno, String localidad, String provincia, String comunidad, double lat, double lng) {
