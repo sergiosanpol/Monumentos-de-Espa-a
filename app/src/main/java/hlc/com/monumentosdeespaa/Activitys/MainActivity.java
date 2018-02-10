@@ -1,4 +1,4 @@
-package hlc.com.monumentosdeespaa;
+package hlc.com.monumentosdeespaa.Activitys;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +9,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+
+import hlc.com.monumentosdeespaa.Fragments.MapsFragment;
+import hlc.com.monumentosdeespaa.R;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
 
