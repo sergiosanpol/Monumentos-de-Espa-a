@@ -1,6 +1,7 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
