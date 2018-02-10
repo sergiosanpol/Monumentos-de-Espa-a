@@ -36,24 +36,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
-        //Añadir el menu lateral del la app
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        monumentos = (Object[]) getIntent().getParcelableArrayExtra("monumentos");
-=======
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Codigo del menu lateral. Comentado
         //Preparando el menu lateral
-
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.abrir_navegacion_lateral, R.string.cerrar_navegacion_lateral);
@@ -63,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
->>>>>>> Stashed changes
+        monumentos = (Object[]) getIntent().getParcelableArrayExtra("monumentos");
 
         mapsFragment = MapsFragment.newInstance();
 
@@ -75,33 +62,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-<<<<<<< Updated upstream
-=======
-        map = googleMap;
-
-        new InsertarMonumentos().execute();
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
-
-
-    private class InsertarMonumentos extends AsyncTask<Void, Void, ArrayList<LatLng>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            LatLng espanna = new LatLng(40.4479921355443,-3.8294219970703125);
-
-            CameraPosition cameraPosition = CameraPosition.builder().target(espanna).zoom(5.5f).build();
-
-            map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-
->>>>>>> Stashed changes
 
         for (Object object :  monumentos){
             Monumentos m = (Monumentos) object;
@@ -110,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-
-
-
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
+    }
 }
