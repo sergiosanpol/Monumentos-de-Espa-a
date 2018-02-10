@@ -2,25 +2,21 @@ package hlc.com.monumentosdeespaa.Activitys;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-<<<<<<< Updated upstream
 import android.os.Parcelable;
 import android.os.SystemClock;
-=======
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
->>>>>>> Stashed changes
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -40,7 +36,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
-<<<<<<< Updated upstream
+        //Añadir el menu lateral del la app
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         monumentos = (Object[]) getIntent().getParcelableArrayExtra("monumentos");
 =======
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
