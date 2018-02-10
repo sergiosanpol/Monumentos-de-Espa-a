@@ -1,15 +1,9 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Parcelable;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -18,8 +12,6 @@ import android.view.MenuItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.ArrayList;
 
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.Fragments.MapsFragment;
@@ -36,11 +28,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
+        //Añadimos la barra superior
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Codigo del menu lateral. Comentado
-        //Preparando el menu lateral
+        //Codigo del menu lateral.
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.abrir_navegacion_lateral, R.string.cerrar_navegacion_lateral);
@@ -50,12 +42,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        monumentos = (Object[]) getIntent().getParcelableArrayExtra("monumentos");
+        //Comprobar si recibe información de los monumentos
+        if(getIntent().hasExtra("monumentos")) {
+            monumentos = (Object[]) getIntent().getParcelableArrayExtra("monumentos");
+        }
 
+        //Cargar el fragmento en la activity
         mapsFragment = MapsFragment.newInstance();
-
         getSupportFragmentManager().beginTransaction().add(R.id.layout_principal,mapsFragment).commit();
-
         mapsFragment.getMapAsync(this);
 
     }
@@ -63,9 +57,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        for (Object object :  monumentos){
-            Monumentos m = (Monumentos) object;
-            googleMap.addMarker(new MarkerOptions().position(m.getLatLng()).title(m.getNombre()));
+        //Comprobar que haya monumentos para cargarlos
+        if(monumentos != null) {
+            for (Object object : monumentos) {
+                Monumentos m = (Monumentos) object;
+                googleMap.addMarker(new MarkerOptions().position(m.getLatLng()).title(m.getNombre()));
+            }
         }
 
     }

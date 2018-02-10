@@ -12,13 +12,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import hlc.com.monumentosdeespaa.Datos.Constantes;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
@@ -34,11 +32,15 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        //Llamamos al método para cargar datos
         cargarDatos();
-
     }
 
+    /**
+     * Método que recupera los monumentos de la base de datos con JSON
+     */
     private void cargarDatos(){
+        //Hacemos la petición web con GET. Crea un hilo.
         VolleySingleton.getInstance(this).addToRequestQueue(
                 new JsonObjectRequest(Request.Method.GET,
                         Constantes.GET_TODOS_MONUMENTOS,
@@ -62,16 +64,37 @@ public class SplashActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Método para gestionar la respuesta positiva del servidor. Transformamos el JSON en un array de monumentos
+     * y lo enviamos a la siguiente actividad
+     * @param jsonObject
+     */
     private void procesarRespuesta(JSONObject jsonObject){
 
         try {
+            //Se recupera el estado de la respuesta del servidor
             String estado = jsonObject.getString("estado");
             Log.d("ESTADO",estado);
-            Monumentos[] monumentos;
             switch (estado){
+                //Se han obtenido los datos
                 case "1":
+                    //Cogemos los datos de los monumentos
                     JSONArray datosMonumentos = jsonObject.getJSONArray("monumentos");
-                    monumentos = new Monumentos[datosMonumentos.length()];
+
+                    //Parseamos y transformamos el JSON a un array de la clase Monumentos
+                    Gson gson = new Gson();
+                    Monumentos[] monumentos =  gson.fromJson(datosMonumentos.toString(), Monumentos[].class);
+
+                    //Al hacer la transformación no recupera las coordenados y las recupero de esta forma.
+                    //Intentaré que lo recupere en las instrucciones anteriores
+                    for (int i = 0;i < monumentos.length;i++){
+                        double latitud = datosMonumentos.getJSONObject(i).getDouble("latitud");
+                        double longitud = datosMonumentos.getJSONObject(i).getDouble("longitud");
+                        monumentos[i].setLatLng(new LatLng(latitud, longitud));
+                    }
+
+                    /*
+                    OTRA FORMA DE HACERLO
 
                     for(int i=0; i<monumentos.length; i++){
                         monumentos[i] = new Monumentos();
@@ -94,7 +117,9 @@ public class SplashActivity extends AppCompatActivity {
 
                         Log.d("Monumento",monumentos[i].getNombre());
                     }
+                    */
 
+                    //Pasamos hacia la ventana del mapa y finalizamos la activity
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra("monumentos",monumentos);
                     startActivity(intent);
