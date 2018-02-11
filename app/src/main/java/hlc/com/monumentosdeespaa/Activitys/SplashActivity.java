@@ -85,14 +85,6 @@ public class SplashActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     Monumentos[] monumentos =  gson.fromJson(datosMonumentos.toString(), Monumentos[].class);
 
-                    //Al hacer la transformación no recupera las coordenados y las recupero de esta forma.
-                    //Intentaré que lo recupere en las instrucciones anteriores
-                    for (int i = 0;i < monumentos.length;i++){
-                        double latitud = datosMonumentos.getJSONObject(i).getDouble("latitud");
-                        double longitud = datosMonumentos.getJSONObject(i).getDouble("longitud");
-                        monumentos[i].setLatLng(new LatLng(latitud, longitud));
-                    }
-
                     /*
                     OTRA FORMA DE HACERLO
 

@@ -9,8 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private MapsFragment mapsFragment;
     private Object[] monumentos;
+    private final LatLng espanna = new LatLng(40.46366700000001,-3.7492200000000366);
 
 
     @Override
@@ -56,6 +60,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        //posicionamiento de la camara en españa
+        CameraPosition cameraPosition =
+                CameraPosition.builder()
+                .target(espanna)
+                .zoom(5.5f).build();
+
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         //Comprobar que haya monumentos para cargarlos
         if(monumentos != null) {
