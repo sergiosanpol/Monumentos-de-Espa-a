@@ -4,20 +4,25 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/x"
+            android:icon="@android:drawable/divider_horizontal_dim_dark"
+            android:title="" />
+
+        <item
             android:title="Funcionalidades">
             <menu>
                 <item
-                    android:id="@+id/nav_mapa"
-                    android:icon="@android:drawable/ic_dialog_map"
-                    android:title="A" />
-                <item
                     android:id="@+id/nav_busquedaFiltrada"
                     android:icon="@android:drawable/ic_menu_search"
-                    android:title="B" />
+                    android:title="@string/buscar" />
                 <item
-                    android:id="@+id/nav_annadir"
-                    android:icon="@android:drawable/ic_menu_add"
-                    android:title="C" />
+                    android:id="@+id/nav_visitas"
+                    android:icon="@android:drawable/ic_menu_myplaces"
+                    android:title="@string/visitas" />
+                <item
+                    android:id="@+id/nav_fav"
+                    android:icon="@android:drawable/star_big_off"
+                    android:title="@string/fav" />
             </menu>
         </item>
     </group>
@@ -26,13 +31,13 @@
         android:checkableBehavior="single">
 
         <item
-            android:title="Información">
+            android:title="@string/info">
 
             <menu>
                 <item
                     android:id="@+id/nav_info"
                     android:icon="@android:drawable/ic_dialog_info"
-                    android:title="D" />
+                    android:title="@string/info" />
             </menu>
         </item>
     </group>
@@ -41,12 +46,12 @@
         android:checkableBehavior="single">
 
         <item
-            android:title="Salir">
+            android:title="@string/salir">
 
             <item
                 android:id="@+id/nav_salir"
                 android:icon="@android:drawable/ic_lock_power_off"
-                android:title="F" />
+                android:title="@string/salir" />
         </item>
     </group>
 
