@@ -7,4 +7,13 @@
     <string name="ErrorServidor">Error de conexión, por favor intentelo mas tarde</string>
     <string name="abrir_navegacion_lateral">Abrir menu lateral</string>
     <string name="cerrar_navegacion_lateral">Cerrar menu lateral</string>
+
+    <!-- Strings de la barra lateral de opciones. -->
+    <string name="visitas">Futuras Visitas</string>
+    <string name="buscar">Buscar</string>
+    <string name="fav">Favoritos</string>
+    <string name="info">Información</string>
+    <string name="salir">Salir</string>
+    <string name="funcionalidades">Funcionalidades</string>
+
 </resources>
