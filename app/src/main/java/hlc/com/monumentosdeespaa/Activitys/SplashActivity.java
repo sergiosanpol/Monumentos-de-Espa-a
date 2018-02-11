@@ -5,6 +5,9 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,8 +35,24 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        //iniciar animacion
+        animacionCargando();
+
         //Llamamos al método para cargar datos
         cargarDatos();
+    }
+
+    /**
+     * Animacion del icono de carga
+     */
+    private void animacionCargando(){
+
+        ImageView imagen = (ImageView) findViewById(R.id.img_cargando);
+
+        Animation rotar = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.rotar);
+
+        imagen.startAnimation(rotar);
     }
 
     /**
