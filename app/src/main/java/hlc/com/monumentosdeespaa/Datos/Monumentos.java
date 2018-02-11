@@ -2,6 +2,7 @@ package hlc.com.monumentosdeespaa.Datos;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -20,11 +21,12 @@ public class Monumentos implements Parcelable{
     private String localidad;
     private String provincia;
     private String comunidad;
-    private LatLng latLng;
+    private double latitud;
+    private double longitud;
 
     @Override
     public String toString() {
-        return id_monumentos + " " + nombre + " " + anno + " " + localidad + " " + provincia + " " + comunidad + " " + latLng.latitude + " " + latLng.longitude;
+        return id_monumentos + " " + nombre + " " + anno + " " + localidad + " " + provincia + " " + comunidad + " " + latitud + " " + longitud;
     }
 
     public Monumentos(int id_monumentos, String nombre, Date anno, String localidad, String provincia, String comunidad, double lat, double lng) {
@@ -34,7 +36,8 @@ public class Monumentos implements Parcelable{
         this.localidad = localidad;
         this.provincia = provincia;
         this.comunidad = comunidad;
-        this.latLng = new LatLng(lat, lng);
+        this.latitud = lat;
+        this.longitud = lng;
     }
 
     protected Monumentos(Parcel in) {
@@ -43,7 +46,8 @@ public class Monumentos implements Parcelable{
         localidad = in.readString();
         provincia = in.readString();
         comunidad = in.readString();
-        latLng = in.readParcelable(LatLng.class.getClassLoader());
+        latitud = in.readDouble();
+        longitud = in.readDouble();
     }
 
     public int getId_monumentos() {
@@ -94,12 +98,24 @@ public class Monumentos implements Parcelable{
         this.comunidad = comunidad;
     }
 
-    public LatLng getLatLng() {
-        return latLng;
+    public double getLatitud() {
+        return latitud;
     }
 
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+    public LatLng getLatLng() {
+        return new LatLng(latitud,longitud);
     }
 
     @Override
@@ -114,7 +130,8 @@ public class Monumentos implements Parcelable{
         dest.writeString(localidad);
         dest.writeString(provincia);
         dest.writeString(comunidad);
-        dest.writeParcelable(latLng, flags);
+        dest.writeDouble(latitud);
+        dest.writeDouble(longitud);
     }
 
     public static final Parcelable.Creator<Monumentos> CREATOR
