@@ -4,11 +4,6 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/x"
-            android:icon="@android:drawable/divider_horizontal_dim_dark"
-            android:title="" />
-
-        <item
             android:title="Funcionalidades">
             <menu>
                 <item
