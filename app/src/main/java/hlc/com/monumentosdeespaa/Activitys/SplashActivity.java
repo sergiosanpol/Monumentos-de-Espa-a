@@ -73,10 +73,7 @@ public class SplashActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError volleyError) {
                                 Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
-                                SystemClock.sleep(1500);
-                                Log.d("ERROR","Error en cargar datos");
-
-                                //cerrar la aplicacion
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 finish();
                             }
                         })
@@ -138,8 +135,9 @@ public class SplashActivity extends AppCompatActivity {
                     break;
                 case "2":
                     Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
-                    SystemClock.sleep(1500);
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
