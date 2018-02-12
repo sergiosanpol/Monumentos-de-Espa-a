@@ -33,11 +33,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int ACTUALIZAR_GOOGLE_PLAY_SERVICES = 2;
     private MapsFragment mapsFragment;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
     private Object[] monumentos;
     private final LatLng espanna = new LatLng(40.46366700000001,-3.7492200000000366);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Codigo del menu lateral.
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.abrir_navegacion_lateral, R.string.cerrar_navegacion_lateral);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -143,11 +141,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return false;
     }
 
+    /**
+     * Método para realizar las acciones del toolbar de la aplicación. Solo realiza la acción de abrir o cerrar el
+     * menú lateral
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp() {
+        //Si el menú está abierto
         if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            //Cerrará el menú
             drawerLayout.closeDrawer(Gravity.LEFT);
         }else{
+            //Abrirá el menu
             drawerLayout.openDrawer(Gravity.LEFT);
         }
         return super.onSupportNavigateUp();
