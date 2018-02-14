@@ -2,8 +2,14 @@ package hlc.com.monumentosdeespaa.Activitys;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -12,21 +18,27 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.Fragments.MapsFragment;
 import hlc.com.monumentosdeespaa.R;
+import hlc.com.monumentosdeespaa.Servicios.ServicioGeo;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,12 +47,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MapsFragment mapsFragment;
     private DrawerLayout drawerLayout;
     private Object[] monumentos;
-    private final LatLng espanna = new LatLng(40.46366700000001,-3.7492200000000366);
+    private GoogleMap mapa;
+    private final LatLng espanna = new LatLng(40.46366700000001, -3.7492200000000366);
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
+
+        startService(new Intent(this, ServicioGeo.class));
+        IntentFilter filter = new IntentFilter();
+        BroadCastGeo broadCastGeo = new BroadCastGeo();
+        registerReceiver(broadCastGeo, filter);
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -75,28 +94,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mapa = googleMap;
 
         //Comprobar si tenemos permiso de geolocalización para habilitar el botón de mi ubicación
         if(comprobarPermisoLocalizacion()){
             googleMap.setMyLocationEnabled(true);
+            //Comprobamos que tengamos la geolocalización aproximada y mostramos en el mapa la última ubicación conocida del usuario
+            //En caso de no poder acceder a esto nos muestra una visión de la peninsula
+            if(comprobarPermisosLocalizacionAproximada()){
+                FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+                client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        moverCamara(new LatLng(location.getLatitude(), location.getLongitude()), 18f);
+                    }
+                });
+            }else{
+                //posicionamiento de la camara en españa
+                moverCamara(espanna, 5.5f);
+            }
+        }else{
+            //posicionamiento de la camara en españa
+            moverCamara(espanna, 5.5f);
         }
-
-        //posicionamiento de la camara en españa
-        CameraPosition cameraPosition =
-                CameraPosition.builder()
-                .target(espanna)
-                .zoom(5.5f).build();
-
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         //Comprobar que haya monumentos para cargarlos
         if(monumentos != null) {
             for (Object object : monumentos) {
                 Monumentos m = (Monumentos) object;
-                googleMap.addMarker(new MarkerOptions().position(m.getLatLng()).title(m.getNombre()));
+                mapa.addMarker(new MarkerOptions().position(m.getLatLng()).title(m.getNombre()));
             }
         }
 
+    }
+
+    /**
+     * Método para mover la camara del mapa
+     * @param latLng
+     * @param zoom
+     */
+    private void moverCamara(LatLng latLng, float zoom){
+        CameraPosition cameraPosition =
+                CameraPosition.builder()
+                        .target(latLng)
+                        .zoom(zoom).build();
+
+        mapa.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     /**
@@ -106,8 +149,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean comprobarPermisoLocalizacion(){
         //Comprobar si tenemos persmisos sobre localización
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
-            // Solicitar permiso en caso de que no lo haya
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean comprobarPermisosLocalizacionAproximada(){
+        //Comprobar si tenemos persmisos sobre localización
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 3);
             return false;
         }
         return true;
@@ -157,6 +208,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawerLayout.openDrawer(Gravity.LEFT);
         }
         return super.onSupportNavigateUp();
+    }
+
+    public class BroadCastGeo extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            context.startService(new Intent(context, ServicioGeo.class));
+        }
     }
 
 }
