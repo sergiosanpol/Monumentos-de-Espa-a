@@ -15,5 +15,14 @@
     <string name="info">Información</string>
     <string name="salir">Salir</string>
     <string name="funcionalidades">Funcionalidades</string>
+    <string name="comunidad">Comunidad:</string>
+    <string name="provincia">Provincia:</string>
+    <string name="localidad">Localidad:</string>
+    <string name="anno_construccion">Datado del año:</string>
+    <string name="ver_googleMaps">Ver Google Maps</string>
+    <string name="guardar_mas_tarde">Añadir Futuras Visitas</string>
+    <string name="insertado">Monumento añadido a futuras visitas</string>
+    <string name="yaExiste">Ya añadiste el monumento a futuras visitas</string>
+    <string name="tituloFuturasVisitas">Futuras Visitas</string>
 
 </resources>
