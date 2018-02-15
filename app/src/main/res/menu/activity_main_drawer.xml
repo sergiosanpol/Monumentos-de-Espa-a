@@ -11,7 +11,7 @@
                     android:icon="@android:drawable/ic_menu_search"
                     android:title="@string/buscar" />
                 <item
-                    android:id="@+id/nav_visitas"
+                    android:id="@+id/nav_futuras_visitas"
                     android:icon="@android:drawable/ic_menu_myplaces"
                     android:title="@string/visitas" />
                 <item

@@ -9,7 +9,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,12 +17,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
         android:supportsRtl="true">
         <activity
-            android:name=".Activitys.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-
-        </activity>
+            android:name=".Activitys.MainActivity" />
         <activity
             android:name=".Activitys.SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -32,11 +30,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activitys.InformacionActivity" />
 
-        <service
-            android:name=".Servicios.ServicioGeo" />
-        <receiver
-            android:name=".Activitys.MainActivity$BroadCastGeo" />
+        <activity android:name=".Activitys.FuturasVisitasActivity"></activity>
+
+        <service android:name=".Servicios.ServicioGeo" />
+
+        <receiver android:name=".Activitys.MainActivity$BroadCastGeo" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -48,6 +49,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
 
     </application>
 

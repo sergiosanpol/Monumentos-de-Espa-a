@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/add_visitar_futuro"
+        android:icon="@drawable/ic_futuras_visitas"
+        android:title="@string/guardar_mas_tarde"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ver_google_maps"
+        android:icon="@drawable/ic_ver_google_maps"
+        android:title="@string/ver_googleMaps"
+        app:showAsAction="ifRoom" />
+</menu>

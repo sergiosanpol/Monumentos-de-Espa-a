@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -18,10 +16,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -32,6 +28,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -40,7 +37,7 @@ import hlc.com.monumentosdeespaa.Fragments.MapsFragment;
 import hlc.com.monumentosdeespaa.R;
 import hlc.com.monumentosdeespaa.Servicios.ServicioGeo;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener {
 
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int ACTUALIZAR_GOOGLE_PLAY_SERVICES = 2;
@@ -122,9 +119,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(monumentos != null) {
             for (Object object : monumentos) {
                 Monumentos m = (Monumentos) object;
-                mapa.addMarker(new MarkerOptions().position(m.getLatLng()).title(m.getNombre()));
+                mapa.addMarker(new MarkerOptions()
+                        .position(m.getLatLng())
+                        .title(m.getNombre()));
             }
         }
+
+        mapa.setOnInfoWindowClickListener(this);
 
     }
 
@@ -189,6 +190,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.nav_futuras_visitas){
+            startActivity(new Intent(this, FuturasVisitasActivity.class));
+            return true;
+        }
         return false;
     }
 
@@ -208,6 +213,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawerLayout.openDrawer(Gravity.LEFT);
         }
         return super.onSupportNavigateUp();
+    }
+
+    /**
+     * Abrir el activity de informacion con el monumento pulsado
+     * @param marker marcador pulsado
+     */
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+        LatLng position = marker.getPosition();
+        Monumentos seleccionado = null;
+
+        for(Object o : monumentos){
+            Monumentos m = (Monumentos) o;
+            if(m.getLatLng().equals(position)){
+                seleccionado = m;
+                break;
+            }
+        }
+
+        Intent intent = new Intent(this, InformacionActivity.class);
+        intent.putExtra("monumento",seleccionado);
+        startActivity(intent);
     }
 
     public class BroadCastGeo extends BroadcastReceiver {
