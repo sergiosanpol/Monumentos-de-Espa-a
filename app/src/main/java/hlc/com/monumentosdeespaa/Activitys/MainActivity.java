@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int ACTUALIZAR_GOOGLE_PLAY_SERVICES = 2;
+    private static final int ACTIVITY_BUSCADOR = 3;
     private MapsFragment mapsFragment;
     private DrawerLayout drawerLayout;
     private Object[] monumentos;
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean comprobarPermisoLocalizacion(){
         //Comprobar si tenemos persmisos sobre localización
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+            // Solicitar permiso en caso de que no lo haya
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
             return false;
         }
@@ -159,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean comprobarPermisosLocalizacionAproximada(){
         //Comprobar si tenemos persmisos sobre localización
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED){
+            // Solicitar permiso en caso de que no lo haya
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 3);
             return false;
         }
@@ -194,6 +197,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(item.getItemId()==R.id.nav_futuras_visitas){
             startActivity(new Intent(this, FuturasVisitasActivity.class));
             return true;
+        }else if(item.getItemId() == R.id.nav_busquedaFiltrada){
+            Intent buscador = new Intent(this, BuscadorActivity.class);
+            buscador.putExtra("monumentos", monumentos);
+            startActivity(buscador);
+        //Para salir de la aplicación
+        }else if(item.getItemId() == R.id.nav_salir){
+            finish();
         }
         return false;
     }

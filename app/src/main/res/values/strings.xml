@@ -25,4 +25,7 @@
     <string name="yaExiste">Ya añadiste el monumento a futuras visitas</string>
     <string name="tituloFuturasVisitas">Futuras Visitas</string>
 
+    <!-- Activity buscador -->
+    <string name="buscarBuscador">Pulsa para buscar</string>
+
 </resources>
