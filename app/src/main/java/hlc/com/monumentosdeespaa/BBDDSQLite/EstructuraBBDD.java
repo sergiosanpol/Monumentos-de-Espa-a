@@ -5,7 +5,11 @@ package hlc.com.monumentosdeespaa.BBDDSQLite;
  */
 
 public class EstructuraBBDD {
+
+    //Tabla VisitasFuturas
     public static final String TABLE_VISITAS_FUTURAS = "VisitasFuturas";
+
+    //Estructura de la tabla
     public static final String ID_MONUMENTO = "id";
     public static final String NOMBRE_MONUMENTO = "nombre";
     public static final String COMUNIDAD_MONUMENTO  = "comunidad";
@@ -15,9 +19,7 @@ public class EstructuraBBDD {
     public static final String LATITUD_MONUMENTO  = "latitud";
     public static final String LONGITUD_MONUMENTO  = "longitud";
 
-
-
-
+    //Sentencia de creacion de la tabla VISITAS_FUTURAS
     public static final String SQL_CREATE_VISITAS_FUTURAS =
             "CREATE TABLE " + EstructuraBBDD.TABLE_VISITAS_FUTURAS + " (" +
                     EstructuraBBDD.ID_MONUMENTO + " INTEGER PRIMARY KEY," +
@@ -29,6 +31,7 @@ public class EstructuraBBDD {
                     EstructuraBBDD.LATITUD_MONUMENTO+" REAL," +
                     EstructuraBBDD.LONGITUD_MONUMENTO+" REAL )";
 
+    //Sentencia de borrado de la tabla VISITAS FUTURAS
     public static final String SQL_DELETE_VISITAS_FUTURAS =
             "DROP TABLE IF EXISTS " + EstructuraBBDD.TABLE_VISITAS_FUTURAS;
 }

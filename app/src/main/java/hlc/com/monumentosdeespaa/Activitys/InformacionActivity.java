@@ -31,8 +31,7 @@ public class InformacionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion);
 
-
-
+        //recogemos el monumento
         monumento = (Monumentos) getIntent().getParcelableExtra("monumento");
 
         nombre = (TextView) findViewById(R.id.nombre_monumento);
@@ -45,12 +44,12 @@ public class InformacionActivity extends AppCompatActivity {
         comunidad.setText(monumento.getComunidad());
         provincia.setText(monumento.getProvincia());
         localidad.setText(monumento.getLocalidad());
-        /*GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(monumento.getAnno());
-        datado.setText(String.valueOf(calendar.get(Calendar.YEAR)));*/
 
     }
 
+    /**
+     * Cargamos el menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -58,6 +57,9 @@ public class InformacionActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Funcionalidad de los elementos del menu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.ver_google_maps){

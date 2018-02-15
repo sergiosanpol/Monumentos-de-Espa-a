@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import hlc.com.monumentosdeespaa.Activitys.AdaptadorFuturasVisitas;
+import hlc.com.monumentosdeespaa.Adaptadores.AdaptadorFuturasVisitas;
 import hlc.com.monumentosdeespaa.BBDDSQLite.ConsultasSQLite;
 import hlc.com.monumentosdeespaa.BBDDSQLite.EstructuraBBDD;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
@@ -36,11 +36,15 @@ public class FuturasVisitasActivity extends AppCompatActivity {
 
     }
 
+
+    //Rellenamos el arrayList con los datos de la
     private void recogerListaFuturasVisitas(){
+        //Realizamos la consulta
         Cursor cursor = ConsultasSQLite.consultarFuturasVisitas(getApplicationContext());
 
         listaMonumentos = new ArrayList<>();
 
+        //Si el curso tiene datos los insertamos en el ArrayList
         if(cursor.moveToFirst())
             do{
                 Monumentos monumento = new Monumentos(
