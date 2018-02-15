@@ -13,7 +13,7 @@
     <string name="visitas">Futuras Visitas</string>
     <string name="buscar">Buscar</string>
     <string name="fav">Favoritos</string>
-    <string name="acercaDe">Acerca de nosotros...</string>
+    <string name="acercaDe">Acerca de...</string>
     <string name="info">Información</string>
     <string name="ayuda">Ayuda</string>
     <string name="opciones">Opciones</string>
@@ -32,5 +32,14 @@
 
     <!-- Activity buscador -->
     <string name="buscarBuscador">Pulsa para buscar</string>
+    
+    <!-- Preferencias -->
+    <string name="ubicacion">Ubicación</string>
+    <string name="ubIni">Ubicación mostrada al inicio...</string>
+    <string name="esp">España</string>
+    <string name="miUb">Mi ubicación</string>
+    <string name="guardaUb">Guardar ubicación actual</string>
+    <string name="busqueda">Búsqueda</string>
+    <string name="radio">Radio de búsqueda...</string>
 
 </resources>

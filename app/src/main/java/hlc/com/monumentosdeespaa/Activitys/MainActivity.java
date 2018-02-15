@@ -197,10 +197,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(item.getItemId()==R.id.nav_futuras_visitas){
             startActivity(new Intent(this, FuturasVisitasActivity.class));
             return true;
-        }else if(item.getItemId() == R.id.nav_busquedaFiltrada){
+        }else if(item.getItemId() == R.id.nav_busquedaFiltrada) {
             Intent buscador = new Intent(this, BuscadorActivity.class);
             buscador.putExtra("monumentos", monumentos);
             startActivity(buscador);
+        //Abre las preferencias de la aplicación.
+        }else if(item.getItemId() == R.id.nav_preferencias) {
+            Intent preferencias = new Intent(this, Preferencias.class);
+            startActivity(preferencias);
         //Para salir de la aplicación
         }else if(item.getItemId() == R.id.nav_salir){
             finish();

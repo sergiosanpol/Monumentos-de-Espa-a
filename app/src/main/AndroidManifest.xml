@@ -30,6 +30,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activitys.InformacionActivity" />
+        <activity android:name=".Activitys.Preferencias"/>
         <activity android:name=".Activitys.FuturasVisitasActivity" />
 
         <service android:name=".Servicios.ServicioGeo" />

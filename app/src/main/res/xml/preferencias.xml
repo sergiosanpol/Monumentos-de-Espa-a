@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="catUbicacion"
+        android:title="@string/ubicacion">
+
+        <ListPreference
+            android:key="prefUbInicio"
+            android:title="@string/ubIni"
+            android:entries="@array/listaUbIni"
+            android:entryValues="@array/listaValUbIni" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefGuardarUb"
+            android:title="@string/guardaUb" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="catBusqueda"
+        android:title="@string/busqueda">
+
+        <EditTextPreference
+            android:defaultValue="10"
+            android:key="prefRadio"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/radio" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
