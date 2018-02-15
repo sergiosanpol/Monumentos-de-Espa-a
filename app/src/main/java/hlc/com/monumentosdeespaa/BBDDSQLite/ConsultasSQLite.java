@@ -41,10 +41,16 @@ public class ConsultasSQLite {
             Toast.makeText(context, context.getString(R.string.yaExiste), Toast.LENGTH_LONG).show();
     }
 
+    /**
+     *
+     * Consulta de todos los monumentos que se guardan en la tabla VisitasFuturas
+     * @return devuelve el cursor con todos los monumentos que se han añadido a futuras visitas
+     */
     public static Cursor consultarFuturasVisitas(Context context){
 
         SQLiteDatabase db = new BBDD_Helper(context).getReadableDatabase();
 
+        //Array con todos los datos de la tabla monumentos equivale al select
         String[] projecction = {
                 EstructuraBBDD.ID_MONUMENTO,
                 EstructuraBBDD.NOMBRE_MONUMENTO,
@@ -56,6 +62,7 @@ public class ConsultasSQLite {
                 EstructuraBBDD.LONGITUD_MONUMENTO
         };
 
+        //Consulta
         Cursor c = db.query(
                 EstructuraBBDD.TABLE_VISITAS_FUTURAS,
                 projecction,

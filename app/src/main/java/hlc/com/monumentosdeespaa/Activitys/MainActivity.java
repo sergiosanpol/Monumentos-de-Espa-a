@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        //abrir el activity de futuras visitas
         if(item.getItemId()==R.id.nav_futuras_visitas){
             startActivity(new Intent(this, FuturasVisitasActivity.class));
             return true;
@@ -225,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng position = marker.getPosition();
         Monumentos seleccionado = null;
 
+        //Busca el objeto del monumento que hemos pulsado
         for(Object o : monumentos){
             Monumentos m = (Monumentos) o;
             if(m.getLatLng().equals(position)){
@@ -233,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
 
+        //iniciamos el activity pasandole el monumento seleccionado
         Intent intent = new Intent(this, InformacionActivity.class);
         intent.putExtra("monumento",seleccionado);
         startActivity(intent);

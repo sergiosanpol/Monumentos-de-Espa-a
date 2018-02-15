@@ -1,7 +1,6 @@
-package hlc.com.monumentosdeespaa.Activitys;
+package hlc.com.monumentosdeespaa.Adaptadores;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,9 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
         this.listaMonumentos = lista;
     }
 
+    /**
+     * Inflamos la vista fila_futuras_visitas
+     */
     @Override
     public MonumentoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -36,6 +38,9 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
         return monumentoViewHolder;
     }
 
+    /**
+     * Insertamos los datos en la vista
+     */
     @Override
     public void onBindViewHolder(MonumentoViewHolder holder, int position) {
         holder.bindHolder(listaMonumentos.get(position));
@@ -46,6 +51,9 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
         return listaMonumentos.size();
     }
 
+    /**
+     * Clase que carga los datos en la vista
+     */
     public static class MonumentoViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView botonInfo, botonBorrar;
@@ -61,7 +69,6 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
         }
 
         public void bindHolder(Monumentos monumento){
-            Log.d("PRUEBA",monumento==null?"NULO":monumento.getNombre());
             nombreMonumento.setText(monumento.getNombre());
             ubicacionMonumento.setText(monumento.getLocalidad()+", "+monumento.getProvincia());
         }
