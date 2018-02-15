@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:title="Funcionalidades">
+            android:title="@string/monumentos">
             <menu>
                 <item
                     android:id="@+id/nav_busquedaFiltrada"
@@ -30,9 +30,13 @@
 
             <menu>
                 <item
-                    android:id="@+id/nav_info"
+                    android:id="@+id/nav_ayuda"
+                    android:icon="@android:drawable/ic_menu_help"
+                    android:title="@string/ayuda" />
+                <item
+                    android:id="@+id/nav_acercaDe"
                     android:icon="@android:drawable/ic_dialog_info"
-                    android:title="@string/info" />
+                    android:title="@string/acercaDe" />
             </menu>
         </item>
     </group>
@@ -41,12 +45,17 @@
         android:checkableBehavior="single">
 
         <item
-            android:title="@string/salir">
-
-            <item
-                android:id="@+id/nav_salir"
-                android:icon="@android:drawable/ic_lock_power_off"
-                android:title="@string/salir" />
+            android:title="@string/opciones">
+            <menu>
+                <item
+                    android:id="@+id/nav_preferencias"
+                    android:icon="@android:drawable/ic_menu_manage"
+                    android:title="@string/preferencias" />
+                <item
+                    android:id="@+id/nav_salir"
+                    android:icon="@android:drawable/ic_lock_power_off"
+                    android:title="@string/salir" />
+            </menu>
         </item>
     </group>
 

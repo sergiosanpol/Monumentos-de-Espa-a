@@ -9,10 +9,15 @@
     <string name="cerrar_navegacion_lateral">Cerrar menu lateral</string>
 
     <!-- Strings de la barra lateral de opciones. -->
+    <string name="monumentos">Monumentos</string>
     <string name="visitas">Futuras Visitas</string>
     <string name="buscar">Buscar</string>
     <string name="fav">Favoritos</string>
+    <string name="acercaDe">Acerca de nosotros...</string>
     <string name="info">Información</string>
+    <string name="ayuda">Ayuda</string>
+    <string name="opciones">Opciones</string>
+    <string name="preferencias">Preferencias</string>
     <string name="salir">Salir</string>
     <string name="funcionalidades">Funcionalidades</string>
     <string name="comunidad">Comunidad:</string>
