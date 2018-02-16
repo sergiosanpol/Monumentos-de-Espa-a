@@ -65,7 +65,8 @@ public class InformacionActivity extends AppCompatActivity {
         if(item.getItemId()==R.id.ver_google_maps){
            Intent intent =  new Intent(Intent.ACTION_VIEW,
                    Uri.parse("geo:"+monumento.getLatitud()+","+monumento.getLongitud()
-                           +"?q="+monumento.getLatitud()+","+monumento.getLongitud()));
+                           +"?q="+monumento.getLatitud()+","+monumento.getLongitud()+
+                           "("+monumento.getNombre()+")"));
            startActivity(intent);
            return true;
         }else if(item.getItemId()==R.id.add_visitar_futuro){

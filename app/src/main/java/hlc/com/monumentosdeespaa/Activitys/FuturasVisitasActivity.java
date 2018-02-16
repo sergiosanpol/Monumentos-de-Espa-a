@@ -1,10 +1,15 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -18,24 +23,49 @@ public class FuturasVisitasActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<Monumentos> listaMonumentos;
+    private AdaptadorFuturasVisitas adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_futuras_visitas);
 
+        //flecha de volver atras
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         //Recogemos los datos de la consulta
         recogerListaFuturasVisitas();
 
-        //añadimos el adaptador
+        //adaptador del recyclerView
+        adaptador = new AdaptadorFuturasVisitas(listaMonumentos);
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_futuras_visitas);
+
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(new AdaptadorFuturasVisitas(listaMonumentos));
 
+        //establecemos el tipo de presentacion del recycler
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
 
+        //animacion del recycler
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        //añadimos el adaptador
+        recyclerView.setAdapter(adaptador);
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        //opcion de la flecha de volver atras
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+
+        return false;
+    }
 
     //Rellenamos el arrayList con los datos de la
     private void recogerListaFuturasVisitas(){
