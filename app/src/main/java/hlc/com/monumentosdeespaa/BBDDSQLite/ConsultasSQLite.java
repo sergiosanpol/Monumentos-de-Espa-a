@@ -75,4 +75,21 @@ public class ConsultasSQLite {
         return c;
     }
 
+    /**
+     * Borramos un monumento de la tabla de VisitasFuturas
+     */
+    public static void borrarFuturasVisitas(Context context, int id){
+
+        SQLiteDatabase db = new BBDD_Helper(context).getWritableDatabase();
+
+        //where del delete
+        String seleccion = EstructuraBBDD.ID_MONUMENTO +" = ?";
+
+        //argumentos de la consulta parametrizada
+        String[] seleccionArgs = {String.valueOf(id)};
+
+        db.delete(EstructuraBBDD.TABLE_VISITAS_FUTURAS,seleccion,seleccionArgs);
+
+    }
+
 }

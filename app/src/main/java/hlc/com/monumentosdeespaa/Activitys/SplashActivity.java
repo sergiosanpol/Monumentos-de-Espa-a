@@ -68,8 +68,6 @@ public class SplashActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError volleyError) {
-                                Log.i("Antes, mucho antes", "Joder");
-                                Log.e("VOLLEY", volleyError.getMessage());
                                 Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 finish();

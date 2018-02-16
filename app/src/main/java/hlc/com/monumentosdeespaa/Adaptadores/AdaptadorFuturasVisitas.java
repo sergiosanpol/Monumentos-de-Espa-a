@@ -1,14 +1,18 @@
 package hlc.com.monumentosdeespaa.Adaptadores;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import hlc.com.monumentosdeespaa.Activitys.InformacionActivity;
+import hlc.com.monumentosdeespaa.BBDDSQLite.ConsultasSQLite;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.R;
 
@@ -19,6 +23,7 @@ import hlc.com.monumentosdeespaa.R;
 public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFuturasVisitas.MonumentoViewHolder>{
 
     private ArrayList<Monumentos> listaMonumentos;
+
 
     public AdaptadorFuturasVisitas(ArrayList<Monumentos> lista){
         this.listaMonumentos = lista;
@@ -43,7 +48,33 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
      */
     @Override
     public void onBindViewHolder(MonumentoViewHolder holder, int position) {
+
+        final int posicionArray = position;
         holder.bindHolder(listaMonumentos.get(position));
+
+        //Evento del boton de informacion
+        holder.botonInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), InformacionActivity.class);
+                intent.putExtra("monumento",listaMonumentos.get(posicionArray));
+                view.getContext().startActivity(intent);
+            }
+        });
+
+        //Evento del boton de borrar
+        holder.botonBorrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConsultasSQLite.borrarFuturasVisitas(view.getContext(),
+                        listaMonumentos.get(posicionArray).getId_monumentos());
+                Toast.makeText(view.getContext(),
+                        listaMonumentos.get(posicionArray).getNombre()+view.getContext().getString(R.string.quitarFuturasVisitas),
+                        Toast.LENGTH_LONG).show();
+                listaMonumentos.remove(listaMonumentos.get(posicionArray));
+                notifyItemRemoved(posicionArray);
+            }
+        });
     }
 
     @Override
@@ -56,7 +87,7 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
      */
     public static class MonumentoViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView botonInfo, botonBorrar;
+        public ImageView botonInfo, botonBorrar;
         private TextView nombreMonumento, ubicacionMonumento;
 
         public MonumentoViewHolder(View itemView) {
