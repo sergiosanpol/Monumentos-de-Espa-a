@@ -36,8 +36,10 @@ import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.Fragments.MapsFragment;
 import hlc.com.monumentosdeespaa.R;
 import hlc.com.monumentosdeespaa.Servicios.ServicioGeo;
+import hlc.com.monumentosdeespaa.Servicios.ServicioMonumentosCercanos;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener {
+public class MainActivity extends AppCompatActivity
+        implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener {
 
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int ACTUALIZAR_GOOGLE_PLAY_SERVICES = 2;
@@ -54,10 +56,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
-        startService(new Intent(this, ServicioGeo.class));
+       /* startService(new Intent(this, ServicioGeo.class));
         IntentFilter filter = new IntentFilter();
         BroadCastGeo broadCastGeo = new BroadCastGeo();
-        registerReceiver(broadCastGeo, filter);
+        registerReceiver(broadCastGeo, filter);*/
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //Comprobamos que tengamos la geolocalización aproximada y mostramos en el mapa la última ubicación conocida del usuario
             //En caso de no poder acceder a esto nos muestra una visión de la peninsula
             if(comprobarPermisosLocalizacionAproximada()){
+                startService(new Intent(getApplicationContext(),ServicioMonumentosCercanos.class));
                 FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
                 client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
