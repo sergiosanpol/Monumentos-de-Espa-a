@@ -69,12 +69,15 @@ public class ServicioMonumentosCercanos extends Service {
                     //*************************************
 
                     //Construccion del JSON con los datos para enviar al servidor
-                    HashMap<String, Double> datos = new HashMap();
-                    datos.put("latitud",location.getLatitude());
-                    datos.put("longitud",location.getLongitude());
-                    //**************valor de prueba*************************
-                    datos.put("radio",500.0);
-                    JSONObject data = new JSONObject(datos);
+
+                    JSONObject data = new JSONObject();
+                    try {
+                        data.put("latitud",location.getLatitude());
+                        data.put("longitud",location.getLongitude());
+                        data.put("radio", 500.0);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     //Peticion al servidor
                     VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(
@@ -91,20 +94,7 @@ public class ServicioMonumentosCercanos extends Service {
                                             public void onErrorResponse(VolleyError volleyError) {
                                                 Log.e("Error", volleyError.getMessage());
                                             }
-                                    }){
-                                        @Override
-                                        public Map<String, String> getHeaders() {
-                                            Map<String, String> headers = new HashMap<String, String>();
-                                            headers.put("Content-Type", "application/json; charset=utf-8");
-                                            headers.put("Accept", "application/json");
-                                            return headers;
-                                        }
-
-                                        @Override
-                                        public String getBodyContentType() {
-                                            return "application/json; charset=utf-8" + getParamsEncoding();
-                                        }
-                                    }
+                                    })
                     );
                 }
             });
