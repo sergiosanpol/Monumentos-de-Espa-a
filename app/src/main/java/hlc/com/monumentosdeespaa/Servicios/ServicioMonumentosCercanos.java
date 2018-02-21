@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,6 +27,9 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import hlc.com.monumentosdeespaa.Activitys.MonumentosCercanos;
 import hlc.com.monumentosdeespaa.Datos.Constantes;
@@ -65,15 +69,12 @@ public class ServicioMonumentosCercanos extends Service {
                     //*************************************
 
                     //Construccion del JSON con los datos para enviar al servidor
-                    final JSONObject data = new JSONObject();
-                    try {
-                        data.put("latitud",location.getLatitude());
-                        data.put("longitud",location.getLongitude());
-                        //**************valor de prueba*************************
-                        data.put("radio",500.0);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    HashMap<String, Double> datos = new HashMap();
+                    datos.put("latitud",location.getLatitude());
+                    datos.put("longitud",location.getLongitude());
+                    //**************valor de prueba*************************
+                    datos.put("radio",500.0);
+                    JSONObject data = new JSONObject(datos);
 
                     //Peticion al servidor
                     VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(
@@ -88,9 +89,22 @@ public class ServicioMonumentosCercanos extends Service {
                                     }, new Response.ErrorListener() {
                                             @Override
                                             public void onErrorResponse(VolleyError volleyError) {
-
+                                                Log.e("Error", volleyError.getMessage());
                                             }
-                                    })
+                                    }){
+                                        @Override
+                                        public Map<String, String> getHeaders() {
+                                            Map<String, String> headers = new HashMap<String, String>();
+                                            headers.put("Content-Type", "application/json; charset=utf-8");
+                                            headers.put("Accept", "application/json");
+                                            return headers;
+                                        }
+
+                                        @Override
+                                        public String getBodyContentType() {
+                                            return "application/json; charset=utf-8" + getParamsEncoding();
+                                        }
+                                    }
                     );
                 }
             });
@@ -105,8 +119,6 @@ public class ServicioMonumentosCercanos extends Service {
      * @param jsonObject json recogido del servidor
      */
     private void procesarRespuesta(JSONObject jsonObject){
-
-
         try {
             //Procesar JSON
             String estado = jsonObject.getString("estado");
@@ -120,7 +132,6 @@ public class ServicioMonumentosCercanos extends Service {
                         .setSmallIcon(android.R.drawable.arrow_up_float);
 
                 //Recuperamos el array de monumentos
-
                 JSONArray datosMonumentos = jsonObject.getJSONArray("monumentos_cercanos");
 
                 Gson gson = new Gson();
@@ -131,7 +142,6 @@ public class ServicioMonumentosCercanos extends Service {
                 //**************************
 
                 //PendingIntent
-
                 Intent intentCercanos = new Intent(getApplicationContext(), MonumentosCercanos.class);
                 intentCercanos.putExtra("monumentos_cercanos", monumentos);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0, intentCercanos,0);
@@ -145,8 +155,6 @@ public class ServicioMonumentosCercanos extends Service {
 
                 manager.notify(NOTIFICATION_ID, builder.build());
             }
-
-
 
         } catch (JSONException e) {
             e.printStackTrace();
