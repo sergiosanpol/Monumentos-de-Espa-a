@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startService(new Intent(getApplicationContext(),ServicioMonumentosCercanos.class));
+    }
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -102,7 +108,6 @@ public class MainActivity extends AppCompatActivity
             //Comprobamos que tengamos la geolocalización aproximada y mostramos en el mapa la última ubicación conocida del usuario
             //En caso de no poder acceder a esto nos muestra una visión de la peninsula
             if(comprobarPermisosLocalizacionAproximada()){
-                startService(new Intent(getApplicationContext(),ServicioMonumentosCercanos.class));
                 FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
                 client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
