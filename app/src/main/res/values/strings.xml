@@ -7,4 +7,40 @@
     <string name="ErrorServidor">Error de conexión, por favor intentelo mas tarde</string>
     <string name="abrir_navegacion_lateral">Abrir menu lateral</string>
     <string name="cerrar_navegacion_lateral">Cerrar menu lateral</string>
+
+    <!-- Strings de la barra lateral de opciones. -->
+    <string name="monumentos">Monumentos</string>
+    <string name="visitas">Futuras Visitas</string>
+    <string name="buscar">Buscar</string>
+    <string name="fav">Favoritos</string>
+    <string name="acercaDe">Acerca de...</string>
+    <string name="info">Información</string>
+    <string name="ayuda">Ayuda</string>
+    <string name="opciones">Opciones</string>
+    <string name="preferencias">Preferencias</string>
+    <string name="salir">Salir</string>
+    <string name="funcionalidades">Funcionalidades</string>
+    <string name="comunidad">Comunidad:</string>
+    <string name="provincia">Provincia:</string>
+    <string name="localidad">Localidad:</string>
+    <string name="anno_construccion">Datado del año:</string>
+    <string name="ver_googleMaps">Ver Google Maps</string>
+    <string name="guardar_mas_tarde">Añadir Futuras Visitas</string>
+    <string name="insertado">Monumento añadido a futuras visitas</string>
+    <string name="yaExiste">Ya añadiste el monumento a futuras visitas</string>
+    <string name="tituloFuturasVisitas">Futuras Visitas</string>
+
+    <!-- Activity buscador -->
+    <string name="buscarBuscador">Pulsa para buscar</string>
+    
+    <!-- Preferencias -->
+    <string name="ubicacion">Ubicación</string>
+    <string name="ubIni">Ubicación mostrada al inicio...</string>
+    <string name="esp">España</string>
+    <string name="miUb">Mi ubicación</string>
+    <string name="guardaUb">Guardar ubicación actual</string>
+    <string name="busqueda">Búsqueda</string>
+    <string name="radio">Radio de búsqueda...</string>
+    <string name="quitarFuturasVisitas">: eliminado de futuras visitas</string>
+
 </resources>

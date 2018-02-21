@@ -1,17 +1,18 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
 import android.content.Intent;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -25,15 +26,29 @@ import hlc.com.monumentosdeespaa.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        //iniciar animacion
+        animacionCargando();
+
         //Llamamos al método para cargar datos
         cargarDatos();
+    }
+
+    /**
+     * Animacion del icono de carga
+     */
+    private void animacionCargando(){
+
+        ImageView imagen = (ImageView) findViewById(R.id.img_cargando);
+
+        Animation rotar = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.rotar);
+
+        imagen.startAnimation(rotar);
     }
 
     /**
@@ -54,10 +69,7 @@ public class SplashActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError volleyError) {
                                 Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
-                                SystemClock.sleep(1500);
-                                Log.d("ERROR","Error en cargar datos");
-
-                                //cerrar la aplicacion
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 finish();
                             }
                         })
@@ -118,9 +130,11 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                     break;
                 case "2":
+                    Log.i("Ya aqui", "Joder");
                     Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
-                    SystemClock.sleep(1500);
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

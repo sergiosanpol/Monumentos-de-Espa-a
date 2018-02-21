@@ -4,20 +4,20 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:title="Funcionalidades">
+            android:title="@string/monumentos">
             <menu>
-                <item
-                    android:id="@+id/nav_mapa"
-                    android:icon="@android:drawable/ic_dialog_map"
-                    android:title="A" />
                 <item
                     android:id="@+id/nav_busquedaFiltrada"
                     android:icon="@android:drawable/ic_menu_search"
-                    android:title="B" />
+                    android:title="@string/buscar" />
                 <item
-                    android:id="@+id/nav_annadir"
-                    android:icon="@android:drawable/ic_menu_add"
-                    android:title="C" />
+                    android:id="@+id/nav_futuras_visitas"
+                    android:icon="@android:drawable/ic_menu_myplaces"
+                    android:title="@string/visitas" />
+                <item
+                    android:id="@+id/nav_fav"
+                    android:icon="@android:drawable/star_big_off"
+                    android:title="@string/fav" />
             </menu>
         </item>
     </group>
@@ -26,13 +26,17 @@
         android:checkableBehavior="single">
 
         <item
-            android:title="Información">
+            android:title="@string/info">
 
             <menu>
                 <item
-                    android:id="@+id/nav_info"
+                    android:id="@+id/nav_ayuda"
+                    android:icon="@android:drawable/ic_menu_help"
+                    android:title="@string/ayuda" />
+                <item
+                    android:id="@+id/nav_acercaDe"
                     android:icon="@android:drawable/ic_dialog_info"
-                    android:title="D" />
+                    android:title="@string/acercaDe" />
             </menu>
         </item>
     </group>
@@ -41,12 +45,17 @@
         android:checkableBehavior="single">
 
         <item
-            android:title="Salir">
-
-            <item
-                android:id="@+id/nav_salir"
-                android:icon="@android:drawable/ic_lock_power_off"
-                android:title="F" />
+            android:title="@string/opciones">
+            <menu>
+                <item
+                    android:id="@+id/nav_preferencias"
+                    android:icon="@android:drawable/ic_menu_manage"
+                    android:title="@string/preferencias" />
+                <item
+                    android:id="@+id/nav_salir"
+                    android:icon="@android:drawable/ic_lock_power_off"
+                    android:title="@string/salir" />
+            </menu>
         </item>
     </group>
 

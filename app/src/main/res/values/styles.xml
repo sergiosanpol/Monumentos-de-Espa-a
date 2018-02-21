@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,5 +17,13 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Tema de la barra lateral de opciones. -->
+    <style name="Opciones" parent="Theme.AppCompat.Dialog">
+
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@drawable/botonpulsado</item>
+
+    </style>
 
 </resources>

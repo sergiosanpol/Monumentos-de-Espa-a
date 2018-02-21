@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="listaUbIni">
+        <item>@string/esp</item>
+        <item>@string/miUb</item>
+    </string-array>
+
+    <string-array name="listaValUbIni">
+        <item>espania</item>
+        <item>miUbicacion</item>
+    </string-array>
+
+
+</resources>
