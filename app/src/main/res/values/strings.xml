@@ -32,7 +32,7 @@
 
     <!-- Activity buscador -->
     <string name="buscarBuscador">Pulsa para buscar</string>
-    
+
     <!-- Preferencias -->
     <string name="ubicacion">Ubicación</string>
     <string name="ubIni">Ubicación mostrada al inicio...</string>
@@ -42,5 +42,6 @@
     <string name="busqueda">Búsqueda</string>
     <string name="radio">Radio de búsqueda...</string>
     <string name="quitarFuturasVisitas">: eliminado de futuras visitas</string>
+    <string name="monumentosCercanos">Tienes monumentos cerca para visitar</string>
 
 </resources>

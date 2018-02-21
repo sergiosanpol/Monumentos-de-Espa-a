@@ -30,10 +30,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activitys.InformacionActivity" />
-        <activity android:name=".Activitys.Preferencias"/>
+        <activity android:name=".Activitys.Preferencias" />
         <activity android:name=".Activitys.FuturasVisitasActivity" />
 
         <service android:name=".Servicios.ServicioGeo" />
+        <service android:name=".Servicios.ServicioMonumentosCercanos" />
 
         <receiver android:name=".Activitys.MainActivity$BroadCastGeo" />
         <!--
@@ -48,7 +49,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activitys.BuscadorActivity"></activity>
+        <activity android:name=".Activitys.BuscadorActivity" />
+        <activity android:name=".Activitys.MonumentosCercanos"></activity>
     </application>
 
 </manifest>
