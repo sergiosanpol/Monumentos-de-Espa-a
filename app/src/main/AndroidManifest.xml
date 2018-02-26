@@ -33,10 +33,8 @@
         <activity android:name=".Activitys.Preferencias" />
         <activity android:name=".Activitys.FuturasVisitasActivity" />
 
-        <service android:name=".Servicios.ServicioGeo" />
         <service android:name=".Servicios.ServicioMonumentosCercanos" />
 
-        <receiver android:name=".Activitys.MainActivity$BroadCastGeo" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

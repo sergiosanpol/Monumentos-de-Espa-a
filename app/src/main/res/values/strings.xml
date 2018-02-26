@@ -12,7 +12,7 @@
     <string name="monumentos">Monumentos</string>
     <string name="visitas">Futuras Visitas</string>
     <string name="buscar">Buscar</string>
-    <string name="fav">Favoritos</string>
+    <string name="monumentosCercanosMenu">Monumentos Cercanos</string>
     <string name="acercaDe">Acerca de...</string>
     <string name="info">Información</string>
     <string name="ayuda">Ayuda</string>
@@ -43,5 +43,6 @@
     <string name="radio">Radio de búsqueda...</string>
     <string name="quitarFuturasVisitas">: eliminado de futuras visitas</string>
     <string name="monumentosCercanos">Tienes monumentos cerca para visitar</string>
+    <string name="monumentosCercanosTitulo">Monumentos Cercanos</string>
 
 </resources>
