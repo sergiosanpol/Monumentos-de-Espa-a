@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -38,7 +39,7 @@ public class FuturasVisitasActivity extends AppCompatActivity {
         recogerListaFuturasVisitas();
 
         //adaptador del recyclerView
-        adaptador = new AdaptadorFuturasVisitas(listaMonumentos);
+        adaptador = new AdaptadorFuturasVisitas(this,listaMonumentos);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_futuras_visitas);
 
@@ -52,6 +53,16 @@ public class FuturasVisitasActivity extends AppCompatActivity {
 
         //añadimos el adaptador
         recyclerView.setAdapter(adaptador);
+    }
+
+    /**
+     * Pulsando en el ojo de los distintos monumentos se cierra el activity y se mueve la camara al punto donde esta el monumento
+     */
+    public void cerrarActivity(int pos){
+        Intent intent = new Intent();
+        intent.putExtra("posicion",listaMonumentos.get(pos).getLatLng());
+        setResult(RESULT_OK,intent);
+        finish();
     }
 
 

@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int ACTUALIZAR_GOOGLE_PLAY_SERVICES = 2;
     private static final int ACTIVITY_BUSCADOR = 3;
+    private static final int FUTURAS_VISITAS_ACTIVITY=4;
     private MapsFragment mapsFragment;
     private DrawerLayout drawerLayout;
     private Object[] monumentos;
@@ -196,6 +198,11 @@ public class MainActivity extends AppCompatActivity
         //En caso de que no esté actualizado Google Play Services y se actualice al volver de actualizar carga el mapa
         if(requestCode == ACTUALIZAR_GOOGLE_PLAY_SERVICES){
             cargarFragmentMap();
+        }else if(requestCode==FUTURAS_VISITAS_ACTIVITY){
+            if(resultCode==RESULT_OK){
+                LatLng posicion = data.getParcelableExtra("posicion");
+                moverCamara(posicion, 16.5f);
+            }
         }
     }
 
@@ -203,7 +210,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //abrir el activity de futuras visitas
         if(item.getItemId()==R.id.nav_futuras_visitas){
-            startActivity(new Intent(this, FuturasVisitasActivity.class));
+            startActivityForResult(new Intent(this, FuturasVisitasActivity.class),FUTURAS_VISITAS_ACTIVITY);
             return true;
         }else if(item.getItemId() == R.id.nav_busquedaFiltrada) {
             Intent buscador = new Intent(this, BuscadorActivity.class);

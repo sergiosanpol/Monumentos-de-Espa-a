@@ -119,7 +119,8 @@ public class ServicioMonumentosCercanos extends Service {
                         .setAutoCancel(true)
                         .setContentTitle(getString(R.string.app_name))
                         .setContentText(getString(R.string.monumentosCercanos))
-                        .setSmallIcon(android.R.drawable.arrow_up_float);
+                        .setSmallIcon(android.R.drawable.arrow_up_float)
+                        .setVibrate(new long[]{100,300,500,300,100});
 
                 //Recuperamos el array de monumentos
                 JSONArray datosMonumentos = jsonObject.getJSONArray("monumentos_cercanos");
