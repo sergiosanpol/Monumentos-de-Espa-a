@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import hlc.com.monumentosdeespaa.Activitys.FuturasVisitasActivity;
 import hlc.com.monumentosdeespaa.Activitys.InformacionActivity;
 import hlc.com.monumentosdeespaa.BBDDSQLite.ConsultasSQLite;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
@@ -23,9 +24,11 @@ import hlc.com.monumentosdeespaa.R;
 public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFuturasVisitas.MonumentoViewHolder>{
 
     private ArrayList<Monumentos> listaMonumentos;
+    private FuturasVisitasActivity futurasVisitas;
 
 
-    public AdaptadorFuturasVisitas(ArrayList<Monumentos> lista){
+    public AdaptadorFuturasVisitas(FuturasVisitasActivity futurasVisitas, ArrayList<Monumentos> lista){
+        this.futurasVisitas=futurasVisitas;
         this.listaMonumentos = lista;
     }
 
@@ -75,6 +78,15 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
                 notifyItemRemoved(posicionArray);
             }
         });
+
+        holder.botonVerMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                futurasVisitas.cerrarActivity(posicionArray);
+            }
+        });
+
+
     }
 
     @Override
@@ -87,7 +99,7 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
      */
     public static class MonumentoViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView botonInfo, botonBorrar;
+        public ImageView botonInfo, botonBorrar, botonVerMapa;
         private TextView nombreMonumento, ubicacionMonumento;
 
         public MonumentoViewHolder(View itemView) {
@@ -97,6 +109,7 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
             ubicacionMonumento = (TextView) itemView.findViewById(R.id.ubicacion_monumento);
             botonInfo = (ImageView) itemView.findViewById(R.id.boton_info);
             botonBorrar = (ImageView) itemView.findViewById(R.id.boton_borrar);
+            botonVerMapa = (ImageView) itemView.findViewById(R.id.boton_ver_mapa);
         }
 
         public void bindHolder(Monumentos monumento){
