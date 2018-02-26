@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import hlc.com.monumentosdeespaa.Activitys.MonumentosCercanos;
+import hlc.com.monumentosdeespaa.Activitys.SplashActivity;
 import hlc.com.monumentosdeespaa.Datos.Constantes;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.Datos.VolleySingleton;
@@ -133,7 +134,7 @@ public class ServicioMonumentosCercanos extends Service {
                 //**************************
 
                 //PendingIntent
-                Intent intentCercanos = new Intent(getApplicationContext(), MonumentosCercanos.class);
+                Intent intentCercanos = new Intent(this, SplashActivity.class);
                 intentCercanos.putExtra("monumentos_cercanos", monumentos);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0, intentCercanos,0);
 

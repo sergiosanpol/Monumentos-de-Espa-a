@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -16,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 
@@ -36,7 +34,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.Fragments.MapsFragment;
 import hlc.com.monumentosdeespaa.R;
-import hlc.com.monumentosdeespaa.Servicios.ServicioGeo;
 import hlc.com.monumentosdeespaa.Servicios.ServicioMonumentosCercanos;
 
 public class MainActivity extends AppCompatActivity
@@ -46,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private static final int ACTUALIZAR_GOOGLE_PLAY_SERVICES = 2;
     private static final int ACTIVITY_BUSCADOR = 3;
     private static final int FUTURAS_VISITAS_ACTIVITY=4;
+    private static final int MONUMENTOS_CERCANOS_ACTIVITY=5;
     private MapsFragment mapsFragment;
     private DrawerLayout drawerLayout;
     private Object[] monumentos;
@@ -90,6 +88,13 @@ public class MainActivity extends AppCompatActivity
         }else{
             //Cargar el fragmento en la activity
             cargarFragmentMap();
+        }
+
+        //si se ha pulsado la notificacion de monumentos cercanos
+        if(getIntent().hasExtra("monumentos_cercanos")){
+            Intent intent = new Intent(this, MonumentosCercanos.class);
+            intent.putExtra("monumentos_cercanos", getIntent().getParcelableArrayExtra("monumentos_cercanos"));
+            startActivityForResult(intent,MONUMENTOS_CERCANOS_ACTIVITY);
         }
     }
 
@@ -198,7 +203,7 @@ public class MainActivity extends AppCompatActivity
         //En caso de que no esté actualizado Google Play Services y se actualice al volver de actualizar carga el mapa
         if(requestCode == ACTUALIZAR_GOOGLE_PLAY_SERVICES){
             cargarFragmentMap();
-        }else if(requestCode==FUTURAS_VISITAS_ACTIVITY){
+        }else if(requestCode==FUTURAS_VISITAS_ACTIVITY || requestCode==MONUMENTOS_CERCANOS_ACTIVITY){
             if(resultCode==RESULT_OK){
                 LatLng posicion = data.getParcelableExtra("posicion");
                 moverCamara(posicion, 16.5f);
@@ -216,10 +221,17 @@ public class MainActivity extends AppCompatActivity
             Intent buscador = new Intent(this, BuscadorActivity.class);
             buscador.putExtra("monumentos", monumentos);
             startActivity(buscador);
+            return true;
         //Abre las preferencias de la aplicación.
         }else if(item.getItemId() == R.id.nav_preferencias) {
             Intent preferencias = new Intent(this, Preferencias.class);
             startActivity(preferencias);
+            return true;
+        //Abre el activity monumentos cercanos
+        }else if(item.getItemId() == R.id.nav_monumentos_cercanos){
+            startActivityForResult(new Intent(this, MonumentosCercanos.class),MONUMENTOS_CERCANOS_ACTIVITY);
+            return true;
+
         //Para salir de la aplicación
         }else if(item.getItemId() == R.id.nav_salir){
             finish();
@@ -268,14 +280,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, InformacionActivity.class);
         intent.putExtra("monumento",seleccionado);
         startActivity(intent);
-    }
-
-    public class BroadCastGeo extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            context.startService(new Intent(context, ServicioGeo.class));
-        }
     }
 
 }
