@@ -65,17 +65,10 @@ public class FuturasVisitasActivity extends AppCompatActivity {
         finish();
     }
 
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //opcion de la flecha de volver atras
-        if(item.getItemId()==android.R.id.home){
-            finish();
-            return true;
-        }
-
-        return false;
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     //Rellenamos el arrayList con los datos de la

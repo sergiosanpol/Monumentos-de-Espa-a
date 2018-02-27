@@ -1,23 +1,17 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
 import android.Manifest;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -34,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import hlc.com.monumentosdeespaa.Adaptadores.AdaptadorMonumentosCercanos;
 import hlc.com.monumentosdeespaa.Datos.Constantes;
@@ -91,6 +84,9 @@ public class MonumentosCercanos extends AppCompatActivity {
             client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
+
+                    //Leemos las preferencias guardadas.
+                    pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                     //Construccion del JSON con los datos para enviar al servidor
 
@@ -162,18 +158,20 @@ public class MonumentosCercanos extends AppCompatActivity {
      * @param listaMonumentosCercanos lista de monumentos cercanos
      */
     private void adaptarRecyclerView(ArrayList<Monumentos> listaMonumentosCercanos){
+        //En caso de no tener monumentos cercanos no carga la lista
+        if(listaMonumentosCercanos != null) {
+            adaptador = new AdaptadorMonumentosCercanos(this, listaMonumentosCercanos);
 
-        adaptador = new AdaptadorMonumentosCercanos(this, listaMonumentosCercanos);
+            recyclerView = (RecyclerView) findViewById(R.id.recycler_monumentos_cercanos);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_monumentos_cercanos);
+            recyclerView.setHasFixedSize(true);
 
-        recyclerView.setHasFixedSize(true);
+            //establecemos el tipo de presentacion del recycler
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        //establecemos el tipo de presentacion del recycler
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-
-        //añadimos el adaptador
-        recyclerView.setAdapter(adaptador);
+            //añadimos el adaptador
+            recyclerView.setAdapter(adaptador);
+        }
     }
 
     /**
@@ -187,15 +185,9 @@ public class MonumentosCercanos extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //opcion de la flecha de volver atras
-        if(item.getItemId()==android.R.id.home){
-            finish();
-            return true;
-        }
-
-        return false;
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     /**

@@ -25,11 +25,13 @@ public class InformacionActivity extends AppCompatActivity {
     private Monumentos monumento;
     private TextView nombre, comunidad, provincia, localidad,datado;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion);
+
+        //Flecha de volver atras
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //recogemos el monumento
         monumento = (Monumentos) getIntent().getParcelableExtra("monumento");
@@ -76,13 +78,13 @@ public class InformacionActivity extends AppCompatActivity {
             ConsultasSQLite.insertarVisitaFurtura(getApplicationContext(),monumento);
             return  true;
         }
-        //opcion de la flecha de volver atras
-        else if(item.getItemId()==android.R.id.home){
-            finish();
-            return true;
-        }
-
         return false;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
 }

@@ -32,6 +32,9 @@ public class BuscadorActivity extends AppCompatActivity implements SearchView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscador);
 
+        //Flecha de volver atras
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //Obtenemos el buscador
         buscador = (SearchView) findViewById(R.id.buscador);
         //Le agregamos un escuchador para cuando se escriba algo
@@ -101,4 +104,11 @@ public class BuscadorActivity extends AppCompatActivity implements SearchView.On
             recyclerView.setAdapter(adapter);
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
 }
