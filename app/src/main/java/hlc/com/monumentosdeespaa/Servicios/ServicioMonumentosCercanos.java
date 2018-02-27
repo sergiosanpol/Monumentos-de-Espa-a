@@ -6,9 +6,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
@@ -47,6 +49,9 @@ public class ServicioMonumentosCercanos extends Service {
     private Location location;
     private final int NOTIFICATION_ID=1;
 
+    //Preferencias
+    private SharedPreferences pref;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -55,6 +60,9 @@ public class ServicioMonumentosCercanos extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        //Leemos las preferencias guardadas.
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
@@ -75,7 +83,8 @@ public class ServicioMonumentosCercanos extends Service {
                     try {
                         data.put("latitud",location.getLatitude());
                         data.put("longitud",location.getLongitude());
-                        data.put("radio", 500.0);
+                        //Parseo del radio guardado en preferencias.
+                        data.put("radio", Float.parseFloat(pref.getString("prefRadio", "10")));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

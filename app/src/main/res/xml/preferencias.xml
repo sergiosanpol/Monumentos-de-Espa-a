@@ -23,10 +23,13 @@
         android:title="@string/busqueda">
 
         <EditTextPreference
-            android:defaultValue="10"
+            android:dialogTitle="@string/tituloDialogRadio"
             android:key="prefRadio"
+            android:numeric="decimal"
             android:selectAllOnFocus="true"
+            android:theme="@style/AppTheme"
             android:singleLine="true"
+            android:singleLineTitle="true"
             android:title="@string/radio" />
 
     </PreferenceCategory>

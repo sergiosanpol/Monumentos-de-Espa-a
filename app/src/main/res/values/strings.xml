@@ -44,5 +44,6 @@
     <string name="quitarFuturasVisitas">: eliminado de futuras visitas</string>
     <string name="monumentosCercanos">Tienes monumentos cerca para visitar</string>
     <string name="monumentosCercanosTitulo">Monumentos Cercanos</string>
+    <string name="tituloDialogRadio">Radio en kilómetros:</string>
 
 </resources>

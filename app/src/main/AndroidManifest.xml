@@ -29,9 +29,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activitys.InformacionActivity" />
-        <activity android:name=".Activitys.Preferencias" />
-        <activity android:name=".Activitys.FuturasVisitasActivity" />
+        <activity android:name=".Activitys.InformacionActivity"
+            android:theme="@style/AppTheme.Ventanas" />
+        <activity android:name=".Activitys.Preferencias"
+            android:theme="@style/AppTheme.Ventanas" />
+        <activity android:name=".Activitys.FuturasVisitasActivity"
+            android:theme="@style/AppTheme.Ventanas" />
 
         <service android:name=".Servicios.ServicioMonumentosCercanos" />
 
@@ -47,8 +50,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activitys.BuscadorActivity" />
-        <activity android:name=".Activitys.MonumentosCercanos"></activity>
+        <activity android:name=".Activitys.BuscadorActivity"
+            android:theme="@style/AppTheme.Ventanas" />
+        <activity android:name=".Activitys.MonumentosCercanos"
+            android:theme="@style/AppTheme.Ventanas" ></activity>
     </application>
 
 </manifest>
