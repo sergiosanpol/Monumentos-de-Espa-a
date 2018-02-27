@@ -50,9 +50,8 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
      * Insertamos los datos en la vista
      */
     @Override
-    public void onBindViewHolder(MonumentoViewHolder holder, int position) {
+    public void onBindViewHolder(final MonumentoViewHolder holder, int position) {
 
-        final int posicionArray = position;
         holder.bindHolder(listaMonumentos.get(position));
 
         //Evento del boton de informacion
@@ -60,7 +59,7 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), InformacionActivity.class);
-                intent.putExtra("monumento",listaMonumentos.get(posicionArray));
+                intent.putExtra("monumento",listaMonumentos.get(holder.getAdapterPosition()));
                 view.getContext().startActivity(intent);
             }
         });
@@ -70,19 +69,20 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
             @Override
             public void onClick(View view) {
                 ConsultasSQLite.borrarFuturasVisitas(view.getContext(),
-                        listaMonumentos.get(posicionArray).getId_monumentos());
+                        listaMonumentos.get(holder.getAdapterPosition()).getId_monumentos());
                 Toast.makeText(view.getContext(),
-                        listaMonumentos.get(posicionArray).getNombre()+view.getContext().getString(R.string.quitarFuturasVisitas),
+                        listaMonumentos.get(holder.getAdapterPosition()).getNombre()+view.getContext().getString(R.string.quitarFuturasVisitas),
                         Toast.LENGTH_LONG).show();
-                listaMonumentos.remove(listaMonumentos.get(posicionArray));
-                notifyItemRemoved(posicionArray);
+                listaMonumentos.remove(listaMonumentos.get(holder.getAdapterPosition()));
+                notifyItemRemoved(holder.getAdapterPosition());
+                notifyItemRangeChanged(holder.getAdapterPosition(), listaMonumentos.size());
             }
         });
 
         holder.botonVerMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                futurasVisitas.cerrarActivity(posicionArray);
+                futurasVisitas.cerrarActivity(holder.getAdapterPosition());
             }
         });
 
