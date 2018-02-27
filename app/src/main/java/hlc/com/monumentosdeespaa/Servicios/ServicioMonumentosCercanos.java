@@ -179,12 +179,14 @@ public class ServicioMonumentosCercanos extends Service {
         //Leemos las preferencias guardadas.
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
+        String radio=pref.getString("prefRadio", "");
+
         //Si el valor es nulo, retorna 0.
-        if(pref.getString("prefRadio", "")==null){
+        if(radio==null || radio==""){
             return 0f;
-        //Si no, retorna el valor introducido en la preferencia.
+            //Si no, retorna el valor introducido en la preferencia.
         }else
-            return Float.parseFloat(pref.getString("prefRadio", ""));
+            return Float.parseFloat(radio);
 
     }
 
