@@ -62,7 +62,7 @@ public class FuturasVisitasActivity extends AppCompatActivity {
      */
     public void cerrarActivity(int posicion){
         Intent intent = new Intent();
-        intent.putExtra("posicion", posicion);
+        intent.putExtra("posicion", listaMonumentos.get(posicion).getLatLng());
         setResult(RESULT_OK,intent);
         finish();
     }
