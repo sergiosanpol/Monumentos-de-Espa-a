@@ -1,7 +1,9 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 
 import hlc.com.monumentosdeespaa.Fragments.PreferenciasFragment;
 

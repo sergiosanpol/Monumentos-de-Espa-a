@@ -1,6 +1,7 @@
 package hlc.com.monumentosdeespaa.Servicios;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -30,8 +31,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import hlc.com.monumentosdeespaa.Activitys.MonumentosCercanos;
 import hlc.com.monumentosdeespaa.Activitys.SplashActivity;
@@ -48,6 +52,7 @@ public class ServicioMonumentosCercanos extends Service {
 
     private Location location;
     private final int NOTIFICATION_ID=1;
+    private Timer timer = new Timer();
 
     //Preferencias
     private SharedPreferences pref;
@@ -63,21 +68,23 @@ public class ServicioMonumentosCercanos extends Service {
 
         //Leemos las preferencias guardadas.
         pref = PreferenceManager.getDefaultSharedPreferences(this);
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
-        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
 
-            client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
+                            //******************Pruebas************
+                            Toast.makeText(getApplicationContext(),"Estoy aqui",Toast.LENGTH_LONG).show();
+                            //*************************************
 
-                    //******************Pruebas************
-                    Toast.makeText(getApplicationContext(),"Estoy aqui",Toast.LENGTH_LONG).show();
-                    //*************************************
-
-                    //Construccion del JSON con los datos para enviar al servidor
+                            //Construccion del JSON con los datos para enviar al servidor
 
                     JSONObject data = new JSONObject();
                     try {
@@ -89,28 +96,31 @@ public class ServicioMonumentosCercanos extends Service {
                         e.printStackTrace();
                     }
 
-                    //Peticion al servidor
-                    VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(
-                            new JsonObjectRequest(Request.Method.POST,
-                                    Constantes.GET_MONUMENTOS_CERCANOS,
-                                    data,
-                                    new Response.Listener<JSONObject>() {
+                            //Peticion al servidor
+                            VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(
+                                    new JsonObjectRequest(Request.Method.POST,
+                                            Constantes.GET_MONUMENTOS_CERCANOS,
+                                            data,
+                                            new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject jsonObject) {
+                                                    procesarRespuesta(jsonObject);
+                                                }
+                                            }, new Response.ErrorListener() {
                                         @Override
-                                        public void onResponse(JSONObject jsonObject) {
-                                            procesarRespuesta(jsonObject);
+                                        public void onErrorResponse(VolleyError volleyError) {
+                                            Log.e("Error", volleyError.getMessage());
                                         }
-                                    }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError volleyError) {
-                                                Log.e("Error", volleyError.getMessage());
-                                            }
                                     })
-                    );
+                            );
+                        }
+                    });
+
                 }
-            });
 
-        }
-
+            }
+        };
+        timer.schedule(timerTask,43200000,  43200000);
         return START_STICKY;
     }
 
@@ -150,7 +160,6 @@ public class ServicioMonumentosCercanos extends Service {
                 //Añadir pending a notificacion
                 builder.setContentIntent(pendingIntent);
 
-
                 //Lanzar la notificacion
                 NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -162,4 +171,5 @@ public class ServicioMonumentosCercanos extends Service {
         }
 
     }
+
 }
