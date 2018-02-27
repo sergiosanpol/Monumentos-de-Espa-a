@@ -5,9 +5,11 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,6 +47,9 @@ public class MonumentosCercanos extends AppCompatActivity {
     private ArrayList<Monumentos> listaMonumentosCercanos;
     private AdaptadorMonumentosCercanos adaptador;
     private RecyclerView recyclerView;
+
+    //Preferencias
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +98,7 @@ public class MonumentosCercanos extends AppCompatActivity {
                     try {
                         data.put("latitud", location.getLatitude());
                         data.put("longitud", location.getLongitude());
-                        data.put("radio", 500.0);
+                        data.put("radio", radioPreferencias());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -191,6 +196,25 @@ public class MonumentosCercanos extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    /**
+     * Método que devuelve el valor del radio introducido en las preferencias.
+     *
+     * @return Float con el radio elegido.
+     */
+    private float radioPreferencias(){
+
+        //Leemos las preferencias guardadas.
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //Si el valor es nulo, retorna 0.
+        if(pref.getString("prefRadio", "")==null){
+            return 0f;
+            //Si no, retorna el valor introducido en la preferencia.
+        }else
+            return Float.parseFloat(pref.getString("prefRadio", ""));
+
     }
 
 }
