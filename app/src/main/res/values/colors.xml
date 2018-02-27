@@ -10,10 +10,16 @@
     <!--Color de la pantalla de carga-->
     <color name="colorBarraNotificaciones">#1686af</color>
 
-    <!--Color de fondo de las activities-->
+    <!--Color de fondo-->
     <color name="colorFondo">#1686af</color>
 
-    <!--Color de texto de las activities-->
+    <!--Color de texto-->
     <color name="colorTexto">#ffffff</color>
+
+    <!--Color de fondo de las activities-->
+    <color name="colorFondoAct">#ffffff</color>
+
+    <!--Color de texto de las activities-->
+    <color name="colorTextoAct">#002510</color>
 
 </resources>
