@@ -26,8 +26,8 @@
             android:dialogTitle="@string/tituloDialogRadio"
             android:key="prefRadio"
             android:numeric="decimal"
+            android:defaultValue="10"
             android:selectAllOnFocus="true"
-            android:theme="@style/AppTheme"
             android:singleLine="true"
             android:singleLineTitle="true"
             android:title="@string/radio" />

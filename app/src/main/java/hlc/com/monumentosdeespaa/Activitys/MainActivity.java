@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -55,11 +56,19 @@ public class MainActivity extends AppCompatActivity
     //Preferencias
     private SharedPreferences pref;
 
+    //Ubicación en preferencias.
+    String ubicacionPreferencias=null;
+
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
+
+        //Leemos las preferencias guardadas.
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        ubicacionPreferencias=pref.getString("prefUbInicio","");
 
        /* startService(new Intent(this, ServicioGeo.class));
         IntentFilter filter = new IntentFilter();
@@ -114,9 +123,6 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
 
-        //Leemos las preferencias guardadas.
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-
         //Comprobar si tenemos permiso de geolocalización para habilitar el botón de mi ubicación
         if(comprobarPermisoLocalizacion()){
             googleMap.setMyLocationEnabled(true);
@@ -125,7 +131,7 @@ public class MainActivity extends AppCompatActivity
             if(comprobarPermisosLocalizacionAproximada()){
 
                 //Si elegimos "Mi ubicación" en la primera preferencia...
-                if("miUbicacion".contains(pref.getString("prefUbInicio",""))) {
+                if(ubicacionPreferencias.equals("miUbicacion")) {
                     FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
                     client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
@@ -134,9 +140,14 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
                 //Si elegimos "España"...
-                }else
+                }else if(ubicacionPreferencias.equals("espania")) {
                     //posicionamiento de la camara en españa
                     moverCamara(espanna, 5.5f);
+                //Si no elegimos nada...
+                }else{
+                    //posicionamiento de la camara en españa
+                    moverCamara(espanna, 5.5f);
+                }
 
             }else{
                 //posicionamiento de la camara en españa

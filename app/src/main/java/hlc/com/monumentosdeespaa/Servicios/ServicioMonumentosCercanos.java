@@ -66,8 +66,6 @@ public class ServicioMonumentosCercanos extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        //Leemos las preferencias guardadas.
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -90,8 +88,7 @@ public class ServicioMonumentosCercanos extends Service {
                     try {
                         data.put("latitud",location.getLatitude());
                         data.put("longitud",location.getLongitude());
-                        //Parseo del radio guardado en preferencias.
-                        data.put("radio", Float.parseFloat(pref.getString("prefRadio", "10")));
+                        data.put("radio", radioPreferencias());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -169,6 +166,25 @@ public class ServicioMonumentosCercanos extends Service {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+    /**
+     * Método que devuelve el valor del radio introducido en las preferencias.
+     *
+     * @return Float con el radio elegido.
+     */
+    private float radioPreferencias(){
+
+        //Leemos las preferencias guardadas.
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //Si el valor es nulo, retorna 0.
+        if(pref.getString("prefRadio", "")==null){
+            return 0f;
+        //Si no, retorna el valor introducido en la preferencia.
+        }else
+            return Float.parseFloat(pref.getString("prefRadio", ""));
 
     }
 
