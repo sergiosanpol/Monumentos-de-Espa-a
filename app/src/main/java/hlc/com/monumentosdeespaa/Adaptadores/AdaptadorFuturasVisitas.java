@@ -75,7 +75,6 @@ public class AdaptadorFuturasVisitas extends RecyclerView.Adapter<AdaptadorFutur
                         Toast.LENGTH_LONG).show();
                 listaMonumentos.remove(listaMonumentos.get(holder.getAdapterPosition()));
                 notifyItemRemoved(holder.getAdapterPosition());
-                notifyItemRangeChanged(holder.getAdapterPosition(), listaMonumentos.size());
             }
         });
 

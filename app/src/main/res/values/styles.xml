@@ -7,11 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorFondo</item>
-        <item name="android:fontFamily">monospace</item>
         <item name="android:textColor">@color/colorTexto</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">15dip</item>
-
+        <item name="android:textSize">15dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -22,8 +20,6 @@
     </style>
 
     <style name="AppTheme.Ventanas">
-
-        <item name="android:fontFamily">sans-serif</item>
         <item name="android:windowBackground">@color/colorFondoAct</item>
         <item name="android:textColor">@color/colorTextoAct</item>
 

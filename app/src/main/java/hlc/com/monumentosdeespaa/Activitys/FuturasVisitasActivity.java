@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 import hlc.com.monumentosdeespaa.Adaptadores.AdaptadorFuturasVisitas;
@@ -58,9 +60,9 @@ public class FuturasVisitasActivity extends AppCompatActivity {
     /**
      * Pulsando en el ojo de los distintos monumentos se cierra el activity y se mueve la camara al punto donde esta el monumento
      */
-    public void cerrarActivity(int pos){
+    public void cerrarActivity(int posicion){
         Intent intent = new Intent();
-        intent.putExtra("posicion",listaMonumentos.get(pos).getLatLng());
+        intent.putExtra("posicion", listaMonumentos.get(posicion).getLatLng());
         setResult(RESULT_OK,intent);
         finish();
     }
