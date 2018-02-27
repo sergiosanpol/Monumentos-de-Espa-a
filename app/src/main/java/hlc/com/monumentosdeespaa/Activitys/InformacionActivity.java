@@ -45,6 +45,9 @@ public class InformacionActivity extends AppCompatActivity {
         provincia.setText(monumento.getProvincia());
         localidad.setText(monumento.getLocalidad());
 
+        //flecha de volver atras
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     /**
@@ -72,6 +75,11 @@ public class InformacionActivity extends AppCompatActivity {
         }else if(item.getItemId()==R.id.add_visitar_futuro){
             ConsultasSQLite.insertarVisitaFurtura(getApplicationContext(),monumento);
             return  true;
+        }
+        //opcion de la flecha de volver atras
+        else if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
         }
 
         return false;
