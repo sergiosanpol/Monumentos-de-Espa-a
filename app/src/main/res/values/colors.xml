@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#af3520</color>
+    <color name="colorPrimaryDark">#1686af</color>
+    <color name="colorAccent">#af3520</color>
 
     <!--Color de boton pulsado en menu lateral-->
-    <color name="colorBotonPulsadoMenuLateral">#962c47f5</color>
+    <color name="colorBotonPulsadoMenuLateral">#7daf3520</color>
+
+    <!--Color de la pantalla de carga-->
+    <color name="colorBarraNotificaciones">#1686af</color>
+
+    <!--Color de fondo de las activities-->
+    <color name="colorFondo">#1686af</color>
+
+    <!--Color de texto de las activities-->
+    <color name="colorTexto">#ffffff</color>
 
 </resources>
