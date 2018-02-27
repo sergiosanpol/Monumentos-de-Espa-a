@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity
     private Object[] monumentos;
     private GoogleMap mapa;
     private final LatLng espanna = new LatLng(40.46366700000001, -3.7492200000000366);
+
+    //Preferencias
+    private SharedPreferences pref;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -109,19 +114,30 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
 
+        //Leemos las preferencias guardadas.
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
         //Comprobar si tenemos permiso de geolocalización para habilitar el botón de mi ubicación
         if(comprobarPermisoLocalizacion()){
             googleMap.setMyLocationEnabled(true);
             //Comprobamos que tengamos la geolocalización aproximada y mostramos en el mapa la última ubicación conocida del usuario
             //En caso de no poder acceder a esto nos muestra una visión de la peninsula
             if(comprobarPermisosLocalizacionAproximada()){
-                FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
-                client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        moverCamara(new LatLng(location.getLatitude(), location.getLongitude()), 18f);
-                    }
-                });
+
+                //Si elegimos "Mi ubicación" en la primera preferencia...
+                if("miUbicacion".contains(pref.getString("prefUbInicio",""))) {
+                    FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+                    client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            moverCamara(new LatLng(location.getLatitude(), location.getLongitude()), 18f);
+                        }
+                    });
+                //Si elegimos "España"...
+                }else
+                    //posicionamiento de la camara en españa
+                    moverCamara(espanna, 5.5f);
+
             }else{
                 //posicionamiento de la camara en españa
                 moverCamara(espanna, 5.5f);
