@@ -114,7 +114,6 @@ public class MonumentosCercanos extends AppCompatActivity {
                                     }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError volleyError) {
-                                    Log.e("Error", volleyError.getMessage());
                                     Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor), Toast.LENGTH_LONG).show();
                                 }
                             })
