@@ -31,6 +31,7 @@
     <string name="insertado">Monumento añadido a futuras visitas</string>
     <string name="yaExiste">Ya añadiste el monumento a futuras visitas</string>
     <string name="tituloFuturasVisitas">Futuras Visitas</string>
+    <string name="errorGPS">Error al recuperar los datos de posicionamiento, por favor active el GPS</string>
 
     <!-- Activity buscador -->
     <string name="buscarBuscador">Pulsa para buscar</string>

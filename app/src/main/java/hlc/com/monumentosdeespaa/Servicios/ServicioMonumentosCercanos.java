@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -74,50 +75,60 @@ public class ServicioMonumentosCercanos extends Service {
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                         && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-                    client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
+                    //Comprobamos que el gps esta activo
+                    LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
-                            //******************Pruebas************
-                            Toast.makeText(getApplicationContext(),"Estoy aqui",Toast.LENGTH_LONG).show();
-                            //*************************************
+                    if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                        client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                try{
+                                    //Construccion del JSON con los datos para enviar al servidor
+                                    JSONObject data = new JSONObject();
+                                    try {
+                                        data.put("latitud",location.getLatitude());
+                                        data.put("longitud",location.getLongitude());
+                                        data.put("radio", radioPreferencias());
+                                    } catch (JSONException e) {
+                                        //e.printStackTrace();
+                                    }
 
-                            //Construccion del JSON con los datos para enviar al servidor
+                                    //Peticion al servidor
+                                    VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(
+                                            new JsonObjectRequest(Request.Method.POST,
+                                                    Constantes.GET_MONUMENTOS_CERCANOS,
+                                                    data,
+                                                    new Response.Listener<JSONObject>() {
+                                                        @Override
+                                                        public void onResponse(JSONObject jsonObject) {
+                                                            procesarRespuesta(jsonObject);
+                                                        }
+                                                    }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError volleyError) {
+                                                    Log.e("Error", volleyError.getMessage());
+                                                }
+                                            })
+                                    );
+                                }catch(NullPointerException nfe){
 
-                    JSONObject data = new JSONObject();
-                    try {
-                        data.put("latitud",location.getLatitude());
-                        data.put("longitud",location.getLongitude());
-                        data.put("radio", radioPreferencias());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                                }
+
+                            }
+                        });
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),getString(R.string.errorGPS),Toast.LENGTH_LONG).show();
                     }
 
-                            //Peticion al servidor
-                            VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(
-                                    new JsonObjectRequest(Request.Method.POST,
-                                            Constantes.GET_MONUMENTOS_CERCANOS,
-                                            data,
-                                            new Response.Listener<JSONObject>() {
-                                                @Override
-                                                public void onResponse(JSONObject jsonObject) {
-                                                    procesarRespuesta(jsonObject);
-                                                }
-                                            }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError volleyError) {
-                                            Log.e("Error", volleyError.getMessage());
-                                        }
-                                    })
-                            );
-                        }
-                    });
 
                 }
 
             }
         };
-        timer.schedule(timerTask,43200000,  43200000);
+        
+        //Se repetira cada 8 horas
+        timer.schedule(timerTask,28800000,  28800000);
         return START_STICKY;
     }
 
@@ -144,10 +155,6 @@ public class ServicioMonumentosCercanos extends Service {
 
                 Gson gson = new Gson();
                 Monumentos[] monumentos =  gson.fromJson(datosMonumentos.toString(), Monumentos[].class);
-
-                //*********Pruebas**********
-                Toast.makeText(getApplicationContext(), "Repuesta: "+monumentos.length+" monumentos devueltos",Toast.LENGTH_LONG).show();
-                //**************************
 
                 //PendingIntent
                 Intent intentCercanos = new Intent(this, SplashActivity.class);
