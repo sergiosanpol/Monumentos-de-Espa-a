@@ -20,6 +20,8 @@
     <string name="preferencias">Preferencias</string>
     <string name="salir">Salir</string>
     <string name="funcionalidades">Funcionalidades</string>
+    <string name="calle">Calle:</string>
+    <string name="noDisponible">No disponible</string>
     <string name="comunidad">Comunidad:</string>
     <string name="provincia">Provincia:</string>
     <string name="localidad">Localidad:</string>
