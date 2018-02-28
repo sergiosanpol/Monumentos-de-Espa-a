@@ -1,10 +1,12 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -81,45 +83,54 @@ public class MonumentosCercanos extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
+            //Comprobamos que el gps esta activo
+            LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
-                    //Leemos las preferencias guardadas.
-                    pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        //Leemos las preferencias guardadas.
+                        pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-                    //Construccion del JSON con los datos para enviar al servidor
+                        //Construccion del JSON con los datos para enviar al servidor
 
-                    JSONObject data = new JSONObject();
-                    try {
-                        data.put("latitud", location.getLatitude());
-                        data.put("longitud", location.getLongitude());
-                        data.put("radio", radioPreferencias());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        JSONObject data = new JSONObject();
+                        try {
+                            data.put("latitud", location.getLatitude());
+                            data.put("longitud", location.getLongitude());
+                            data.put("radio", radioPreferencias());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        //Peticion al servidor
+                        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(
+                                new JsonObjectRequest(Request.Method.POST,
+                                        Constantes.GET_MONUMENTOS_CERCANOS,
+                                        data,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject jsonObject) {
+                                                procesarRespuesta(jsonObject);
+                                                //adaptar el recyclerView
+                                                adaptarRecyclerView(listaMonumentosCercanos);
+                                            }
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError volleyError) {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor), Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                        );
+
                     }
+                });
 
-                    //Peticion al servidor
-                    VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(
-                            new JsonObjectRequest(Request.Method.POST,
-                                    Constantes.GET_MONUMENTOS_CERCANOS,
-                                    data,
-                                    new Response.Listener<JSONObject>() {
-                                        @Override
-                                        public void onResponse(JSONObject jsonObject) {
-                                            procesarRespuesta(jsonObject);
-                                            //adaptar el recyclerView
-                                            adaptarRecyclerView(listaMonumentosCercanos);
-                                        }
-                                    }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError volleyError) {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor), Toast.LENGTH_LONG).show();
-                                }
-                            })
-                    );
-                }
-            });
+            }else{
+                Toast.makeText(getApplicationContext(),getString(R.string.errorGPS),Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 
