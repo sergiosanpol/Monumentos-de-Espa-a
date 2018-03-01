@@ -59,9 +59,9 @@
         <activity
             android:name=".Activitys.MonumentosCercanos"
             android:theme="@style/AppTheme.Ventanas" />
-        <activity android:name=".AyudaActivity"
+        <activity android:name=".Activitys.AyudaActivity"
             android:theme="@style/AppTheme.Ventanas"/>
-        <activity android:name=".AcercaDeActivity"
+        <activity android:name=".Activitys.AcercaDeActivity"
             android:theme="@style/AppTheme.Ventanas"></activity>
     </application>
 
