@@ -1,5 +1,6 @@
 package hlc.com.monumentosdeespaa.Adaptadores;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -23,9 +24,11 @@ import hlc.com.monumentosdeespaa.R;
 public class AdaptadorBuscador extends RecyclerView.Adapter<AdaptadorBuscador.AdaptadorBuscadorHolder> {
 
     private List<Monumentos> items;
+    private Activity activity;
 
-    public AdaptadorBuscador(List<Monumentos> items){
+    public AdaptadorBuscador(List<Monumentos> items, Activity activity){
         this.items = items;
+        this.activity = activity;
     }
 
     /**
@@ -59,8 +62,9 @@ public class AdaptadorBuscador extends RecyclerView.Adapter<AdaptadorBuscador.Ad
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), InformacionActivity.class);
-                intent.putExtra("monumento", items.get(holder.getAdapterPosition()));
-                v.getContext().startActivity(intent);
+                intent.putExtra("monumento_buscado", items.get(holder.getAdapterPosition()));
+                activity.setResult(Activity.RESULT_OK, intent);
+                activity.finish();
             }
         });
     }

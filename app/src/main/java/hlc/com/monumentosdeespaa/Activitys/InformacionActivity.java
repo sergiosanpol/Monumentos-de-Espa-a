@@ -69,13 +69,8 @@ public class InformacionActivity extends AppCompatActivity {
             comunidad.setText(monumento.getComunidad());
             provincia.setText(monumento.getProvincia());
             localidad.setText(monumento.getLocalidad());
-
         }else
             Toast.makeText(this,getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
-
-
-        //flecha de volver atras
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 

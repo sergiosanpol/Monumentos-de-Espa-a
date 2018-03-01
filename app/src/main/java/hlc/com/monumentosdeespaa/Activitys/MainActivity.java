@@ -152,16 +152,11 @@ public class MainActivity extends AppCompatActivity
                             moverCamara(new LatLng(location.getLatitude(), location.getLongitude()), 18f);
                         }
                     });
-                //Si elegimos "España"...
-                }else if(ubicacionPreferencias.equals("espania")) {
-                    //posicionamiento de la camara en españa
-                    moverCamara(espanna, 5.5f);
-                //Si no elegimos nada...
+                //Si elegimos "España" o no hemos definido la preferencia
                 }else{
                     //posicionamiento de la camara en españa
                     moverCamara(espanna, 5.5f);
                 }
-
             }else{
                 //posicionamiento de la camara en españa
                 moverCamara(espanna, 5.5f);
@@ -248,6 +243,16 @@ public class MainActivity extends AppCompatActivity
                 LatLng posicion = data.getParcelableExtra("posicion");
                 moverCamara(posicion, 16.5f);
             }
+        }else if(requestCode == ACTIVITY_BUSCADOR && resultCode == RESULT_OK){
+            if(data != null){
+                Monumentos monumento = (Monumentos) data.getParcelableExtra("monumento_buscado");
+                moverCamara(new LatLng(monumento.getLatitud(), monumento.getLongitud()), 18f);
+            }
+        }
+        //Si el menú está abierto
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            //Cerrará el menú
+            drawerLayout.closeDrawer(Gravity.LEFT);
         }
     }
 
@@ -260,7 +265,7 @@ public class MainActivity extends AppCompatActivity
         }else if(item.getItemId() == R.id.nav_busquedaFiltrada) {
             Intent buscador = new Intent(this, BuscadorActivity.class);
             buscador.putExtra("monumentos", monumentos);
-            startActivity(buscador);
+            startActivityForResult(buscador, ACTIVITY_BUSCADOR);
             return true;
         //Abre las preferencias de la aplicación.
         }else if(item.getItemId() == R.id.nav_preferencias) {
