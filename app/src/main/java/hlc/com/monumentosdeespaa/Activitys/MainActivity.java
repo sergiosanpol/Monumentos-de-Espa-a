@@ -18,6 +18,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private Object[] monumentos;
     private GoogleMap mapa;
     private final LatLng espanna = new LatLng(40.46366700000001, -3.7492200000000366);
+    private boolean vistaSatelite = false;
 
     //Preferencias
     private SharedPreferences pref;
@@ -110,6 +113,16 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("monumentos_cercanos", getIntent().getParcelableArrayExtra("monumentos_cercanos"));
             startActivityForResult(intent,MONUMENTOS_CERCANOS_ACTIVITY);
         }
+    }
+
+    /*
+    * Cargamos el menu vista satelite
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_vista, menu);
+        return true;
     }
 
     @Override
@@ -309,4 +322,19 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.cambiar_vista){
+            if(!vistaSatelite){
+                mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                vistaSatelite=true;
+            }else{
+                mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                vistaSatelite=false;
+            }
+
+            return true;
+        }
+        return false;
+    }
 }

@@ -59,7 +59,7 @@
                     android:id="@+id/boton_ver_mapa"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginHorizontal="4dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     app:srcCompat="@drawable/ic_ver_mapa" />

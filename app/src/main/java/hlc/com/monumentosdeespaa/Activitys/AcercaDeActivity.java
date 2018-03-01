@@ -1,18 +1,19 @@
-package hlc.com.monumentosdeespaa;
+package hlc.com.monumentosdeespaa.Activitys;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class AyudaActivity extends AppCompatActivity {
+import hlc.com.monumentosdeespaa.R;
+
+public class AcercaDeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ayuda);
+        setContentView(R.layout.activity_acerca_de);
 
         //flecha de volver atras
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
