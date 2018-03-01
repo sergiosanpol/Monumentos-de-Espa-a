@@ -126,7 +126,7 @@ public class ServicioMonumentosCercanos extends Service {
 
             }
         };
-        
+
         //Se repetira cada 8 horas
         timer.schedule(timerTask,28800000,  28800000);
         return START_STICKY;
