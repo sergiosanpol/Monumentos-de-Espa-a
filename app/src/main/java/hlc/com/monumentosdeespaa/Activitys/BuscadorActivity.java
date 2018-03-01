@@ -100,7 +100,7 @@ public class BuscadorActivity extends AppCompatActivity implements SearchView.On
             }
 
             //Inicializamos el adaptador
-            adapter = new AdaptadorBuscador(monBuscados);
+            adapter = new AdaptadorBuscador(monBuscados, this);
             recyclerView.setAdapter(adapter);
         }
     }
