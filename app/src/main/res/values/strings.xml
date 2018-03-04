@@ -12,7 +12,7 @@
     <string name="monumentos">Monumentos</string>
     <string name="visitas">Futuras Visitas</string>
     <string name="buscar">Buscar</string>
-    <string name="fav">Favoritos</string>
+    <string name="monumentosCercanosMenu">Monumentos Cercanos</string>
     <string name="acercaDe">Acerca de...</string>
     <string name="info">Información</string>
     <string name="ayuda">Ayuda</string>
@@ -20,6 +20,8 @@
     <string name="preferencias">Preferencias</string>
     <string name="salir">Salir</string>
     <string name="funcionalidades">Funcionalidades</string>
+    <string name="calle">Calle:</string>
+    <string name="noDisponible">No disponible</string>
     <string name="comunidad">Comunidad:</string>
     <string name="provincia">Provincia:</string>
     <string name="localidad">Localidad:</string>
@@ -29,10 +31,11 @@
     <string name="insertado">Monumento añadido a futuras visitas</string>
     <string name="yaExiste">Ya añadiste el monumento a futuras visitas</string>
     <string name="tituloFuturasVisitas">Futuras Visitas</string>
+    <string name="errorGPS">Error al recuperar los datos de posicionamiento, por favor active el GPS</string>
 
     <!-- Activity buscador -->
     <string name="buscarBuscador">Pulsa para buscar</string>
-    
+
     <!-- Preferencias -->
     <string name="ubicacion">Ubicación</string>
     <string name="ubIni">Ubicación mostrada al inicio...</string>
@@ -42,5 +45,22 @@
     <string name="busqueda">Búsqueda</string>
     <string name="radio">Radio de búsqueda...</string>
     <string name="quitarFuturasVisitas">: eliminado de futuras visitas</string>
+    <string name="monumentosCercanos">Tienes monumentos cerca para visitar</string>
+    <string name="monumentosCercanosTitulo">Monumentos Cercanos</string>
+    <string name="tituloDialogRadio">Radio en kilómetros:</string>
+
+    <!--Activity Ayuda-->
+    <string name="botonVista">Botón de vista: Permite alternar la vista entre mapa de carreteras y satélite.</string>
+    <string name="botonUbicacion">Botón de ubicación actual: Muestra en el mapa la ubicación actual del usuario.</string>
+    <string name="marcador">Marcador: Indica la ubicación de un monumento en el mapa.</string>
+
+    <!--Activity Acerca De-->
+    <string name="descripcionApp">Nuestro propósito es poner al alcance de su mano los monumentos más representativos de cada región,
+    poder localizarlos y avisarle en el caso de que se encuentre cerca de aguno que pueda interesarle.</string>
+    <string name="desarrolladores">DESARROLLADORES</string>
+    <string name="des1">Sergio Sánchez</string>
+    <string name="des2">Daniel Belmonte</string>
+    <string name="des3">Juan Ramón Jover</string>
+    <string name="des4">Javier Usero</string>
 
 </resources>

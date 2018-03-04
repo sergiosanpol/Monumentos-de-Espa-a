@@ -26,10 +26,17 @@ import hlc.com.monumentosdeespaa.R;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private Object[] monumentosCercanos = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //si has pulsado en la notificacion recuperamos los monumentos cercanos
+        if(getIntent().hasExtra("monumentos_cercanos")){
+            monumentosCercanos = (Object[]) getIntent().getParcelableArrayExtra("monumentos_cercanos");
+        }
 
         //iniciar animacion
         animacionCargando();
@@ -66,13 +73,13 @@ public class SplashActivity extends AppCompatActivity {
                                 procesarRespuesta(jsonObject);
                             }
                         }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError volleyError) {
-                                Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                finish();
-                            }
-                        })
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+                    }
+                })
         );
     }
 
@@ -126,6 +133,9 @@ public class SplashActivity extends AppCompatActivity {
                     //Pasamos hacia la ventana del mapa y finalizamos la activity
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra("monumentos",monumentos);
+                    if(monumentosCercanos!=null){
+                        intent.putExtra("monumentos_cercanos", monumentosCercanos);
+                    }
                     startActivity(intent);
                     finish();
                     break;

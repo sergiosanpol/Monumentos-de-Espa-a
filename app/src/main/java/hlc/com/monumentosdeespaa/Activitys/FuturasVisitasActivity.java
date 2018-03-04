@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -38,7 +41,7 @@ public class FuturasVisitasActivity extends AppCompatActivity {
         recogerListaFuturasVisitas();
 
         //adaptador del recyclerView
-        adaptador = new AdaptadorFuturasVisitas(listaMonumentos);
+        adaptador = new AdaptadorFuturasVisitas(this,listaMonumentos);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_futuras_visitas);
 
@@ -54,17 +57,20 @@ public class FuturasVisitasActivity extends AppCompatActivity {
         recyclerView.setAdapter(adaptador);
     }
 
+    /**
+     * Pulsando en el ojo de los distintos monumentos se cierra el activity y se mueve la camara al punto donde esta el monumento
+     */
+    public void cerrarActivity(int posicion){
+        Intent intent = new Intent();
+        intent.putExtra("posicion", listaMonumentos.get(posicion).getLatLng());
+        setResult(RESULT_OK,intent);
+        finish();
+    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //opcion de la flecha de volver atras
-        if(item.getItemId()==android.R.id.home){
-            finish();
-            return true;
-        }
-
-        return false;
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     //Rellenamos el arrayList con los datos de la

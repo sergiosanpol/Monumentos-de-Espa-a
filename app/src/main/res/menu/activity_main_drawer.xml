@@ -12,12 +12,12 @@
                     android:title="@string/buscar" />
                 <item
                     android:id="@+id/nav_futuras_visitas"
-                    android:icon="@android:drawable/ic_menu_myplaces"
+                    android:icon="@drawable/ic_lista_futuras_visitas"
                     android:title="@string/visitas" />
                 <item
-                    android:id="@+id/nav_fav"
-                    android:icon="@android:drawable/star_big_off"
-                    android:title="@string/fav" />
+                    android:id="@+id/nav_monumentos_cercanos"
+                    android:icon="@android:drawable/ic_menu_myplaces"
+                    android:title="@string/monumentosCercanosMenu" />
             </menu>
         </item>
     </group>

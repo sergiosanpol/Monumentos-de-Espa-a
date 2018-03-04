@@ -5,9 +5,10 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -17,7 +18,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -35,18 +39,28 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.Fragments.MapsFragment;
 import hlc.com.monumentosdeespaa.R;
-import hlc.com.monumentosdeespaa.Servicios.ServicioGeo;
+import hlc.com.monumentosdeespaa.Servicios.ServicioMonumentosCercanos;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener {
+public class MainActivity extends AppCompatActivity
+        implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener {
 
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int ACTUALIZAR_GOOGLE_PLAY_SERVICES = 2;
     private static final int ACTIVITY_BUSCADOR = 3;
+    private static final int FUTURAS_VISITAS_ACTIVITY=4;
+    private static final int MONUMENTOS_CERCANOS_ACTIVITY=5;
     private MapsFragment mapsFragment;
     private DrawerLayout drawerLayout;
     private Object[] monumentos;
     private GoogleMap mapa;
     private final LatLng espanna = new LatLng(40.46366700000001, -3.7492200000000366);
+    private boolean vistaSatelite = false;
+
+    //Preferencias
+    private SharedPreferences pref;
+
+    //Ubicación en preferencias.
+    String ubicacionPreferencias=null;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -54,10 +68,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
-        startService(new Intent(this, ServicioGeo.class));
+        //Leemos las preferencias guardadas.
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        ubicacionPreferencias=pref.getString("prefUbInicio","");
+
+       /* startService(new Intent(this, ServicioGeo.class));
         IntentFilter filter = new IntentFilter();
         BroadCastGeo broadCastGeo = new BroadCastGeo();
-        registerReceiver(broadCastGeo, filter);
+        registerReceiver(broadCastGeo, filter);*/
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -87,6 +106,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //Cargar el fragmento en la activity
             cargarFragmentMap();
         }
+
+        //si se ha pulsado la notificacion de monumentos cercanos
+        if(getIntent().hasExtra("monumentos_cercanos")){
+            Intent intent = new Intent(this, MonumentosCercanos.class);
+            intent.putExtra("monumentos_cercanos", getIntent().getParcelableArrayExtra("monumentos_cercanos"));
+            startActivityForResult(intent,MONUMENTOS_CERCANOS_ACTIVITY);
+        }
+    }
+
+    /*
+    * Cargamos el menu vista satelite
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_vista, menu);
+        return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startService(new Intent(getApplicationContext(),ServicioMonumentosCercanos.class));
     }
 
     @SuppressLint("MissingPermission")
@@ -100,13 +142,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //Comprobamos que tengamos la geolocalización aproximada y mostramos en el mapa la última ubicación conocida del usuario
             //En caso de no poder acceder a esto nos muestra una visión de la peninsula
             if(comprobarPermisosLocalizacionAproximada()){
-                FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
-                client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        moverCamara(new LatLng(location.getLatitude(), location.getLongitude()), 18f);
-                    }
-                });
+
+                //Si elegimos "Mi ubicación" en la primera preferencia...
+                if(ubicacionPreferencias.equals("miUbicacion")) {
+                    FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+                    client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            moverCamara(new LatLng(location.getLatitude(), location.getLongitude()), 18f);
+                        }
+                    });
+                //Si elegimos "España" o no hemos definido la preferencia
+                }else{
+                    //posicionamiento de la camara en españa
+                    moverCamara(espanna, 5.5f);
+                }
             }else{
                 //posicionamiento de la camara en españa
                 moverCamara(espanna, 5.5f);
@@ -188,6 +238,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //En caso de que no esté actualizado Google Play Services y se actualice al volver de actualizar carga el mapa
         if(requestCode == ACTUALIZAR_GOOGLE_PLAY_SERVICES){
             cargarFragmentMap();
+        }else if(requestCode==FUTURAS_VISITAS_ACTIVITY || requestCode==MONUMENTOS_CERCANOS_ACTIVITY){
+            if(resultCode==RESULT_OK){
+                LatLng posicion = data.getParcelableExtra("posicion");
+                moverCamara(posicion, 16.5f);
+            }
+        }else if(requestCode == ACTIVITY_BUSCADOR && resultCode == RESULT_OK){
+            if(data != null){
+                Monumentos monumento = (Monumentos) data.getParcelableExtra("monumento_buscado");
+                moverCamara(new LatLng(monumento.getLatitud(), monumento.getLongitud()), 18f);
+            }
+        }
+        //Si el menú está abierto
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            //Cerrará el menú
+            drawerLayout.closeDrawer(Gravity.LEFT);
         }
     }
 
@@ -195,16 +260,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //abrir el activity de futuras visitas
         if(item.getItemId()==R.id.nav_futuras_visitas){
-            startActivity(new Intent(this, FuturasVisitasActivity.class));
+            startActivityForResult(new Intent(this, FuturasVisitasActivity.class),FUTURAS_VISITAS_ACTIVITY);
             return true;
+        //Abre la activity del buscador.
         }else if(item.getItemId() == R.id.nav_busquedaFiltrada) {
             Intent buscador = new Intent(this, BuscadorActivity.class);
             buscador.putExtra("monumentos", monumentos);
-            startActivity(buscador);
+            startActivityForResult(buscador, ACTIVITY_BUSCADOR);
+            return true;
         //Abre las preferencias de la aplicación.
         }else if(item.getItemId() == R.id.nav_preferencias) {
             Intent preferencias = new Intent(this, Preferencias.class);
             startActivity(preferencias);
+            return true;
+        //Abre el activity monumentos cercanos.
+        }else if(item.getItemId() == R.id.nav_monumentos_cercanos) {
+            startActivityForResult(new Intent(this, MonumentosCercanos.class), MONUMENTOS_CERCANOS_ACTIVITY);
+            return true;
+        //Abre la activity de Ayuda.
+        }else if(item.getItemId() == R.id.nav_ayuda) {
+            Intent ayuda = new Intent(this, AyudaActivity.class);
+            startActivity(ayuda);
+            return true;
+        //Abre la activity Acerca de.
+        }else if(item.getItemId() == R.id.nav_acercaDe) {
+            Intent acercaDe = new Intent(this, AcercaDeActivity.class);
+            startActivity(acercaDe);
+            return true;
+
         //Para salir de la aplicación
         }else if(item.getItemId() == R.id.nav_salir){
             finish();
@@ -255,12 +338,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 
-    public class BroadCastGeo extends BroadcastReceiver {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.cambiar_vista){
+            if(!vistaSatelite){
+                mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                vistaSatelite=true;
+            }else{
+                mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                vistaSatelite=false;
+            }
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            context.startService(new Intent(context, ServicioGeo.class));
+            return true;
         }
+        return false;
     }
-
 }
