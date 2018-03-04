@@ -49,4 +49,18 @@
     <string name="monumentosCercanosTitulo">Monumentos Cercanos</string>
     <string name="tituloDialogRadio">Radio en kilómetros:</string>
 
+    <!--Activity Ayuda-->
+    <string name="botonVista">Botón de vista: Permite alternar la vista entre mapa de carreteras y satélite.</string>
+    <string name="botonUbicacion">Botón de ubicación actual: Muestra en el mapa la ubicación actual del usuario.</string>
+    <string name="marcador">Marcador: Indica la ubicación de un monumento en el mapa.</string>
+
+    <!--Activity Acerca De-->
+    <string name="descripcionApp">Nuestro propósito es poner al alcance de su mano los monumentos más representativos de cada región,
+    poder localizarlos y avisarle en el caso de que se encuentre cerca de aguno que pueda interesarle.</string>
+    <string name="desarrolladores">DESARROLLADORES</string>
+    <string name="des1">Sergio Sánchez</string>
+    <string name="des2">Daniel Belmonte</string>
+    <string name="des3">Juan Ramón Jover</string>
+    <string name="des4">Javier Usero</string>
+
 </resources>
