@@ -22,4 +22,8 @@
     <!--Color de texto de las activities-->
     <color name="colorTextoAct">#002510</color>
 
+    <!--Color de fonde de AcercaDe-->
+    <color name="colorFondoAD">#8effffff</color>
+    <color name="colorFondoADDes">#bdffffff</color>
+
 </resources>

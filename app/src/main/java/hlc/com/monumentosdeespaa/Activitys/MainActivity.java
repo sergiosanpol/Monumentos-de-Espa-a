@@ -262,6 +262,7 @@ public class MainActivity extends AppCompatActivity
         if(item.getItemId()==R.id.nav_futuras_visitas){
             startActivityForResult(new Intent(this, FuturasVisitasActivity.class),FUTURAS_VISITAS_ACTIVITY);
             return true;
+        //Abre la activity del buscador.
         }else if(item.getItemId() == R.id.nav_busquedaFiltrada) {
             Intent buscador = new Intent(this, BuscadorActivity.class);
             buscador.putExtra("monumentos", monumentos);
@@ -272,9 +273,19 @@ public class MainActivity extends AppCompatActivity
             Intent preferencias = new Intent(this, Preferencias.class);
             startActivity(preferencias);
             return true;
-        //Abre el activity monumentos cercanos
-        }else if(item.getItemId() == R.id.nav_monumentos_cercanos){
-            startActivityForResult(new Intent(this, MonumentosCercanos.class),MONUMENTOS_CERCANOS_ACTIVITY);
+        //Abre el activity monumentos cercanos.
+        }else if(item.getItemId() == R.id.nav_monumentos_cercanos) {
+            startActivityForResult(new Intent(this, MonumentosCercanos.class), MONUMENTOS_CERCANOS_ACTIVITY);
+            return true;
+        //Abre la activity de Ayuda.
+        }else if(item.getItemId() == R.id.nav_ayuda) {
+            Intent ayuda = new Intent(this, AyudaActivity.class);
+            startActivity(ayuda);
+            return true;
+        //Abre la activity Acerca de.
+        }else if(item.getItemId() == R.id.nav_acercaDe) {
+            Intent acercaDe = new Intent(this, AcercaDeActivity.class);
+            startActivity(acercaDe);
             return true;
 
         //Para salir de la aplicación
