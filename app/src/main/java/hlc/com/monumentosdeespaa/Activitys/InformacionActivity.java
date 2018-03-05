@@ -65,7 +65,7 @@ public class InformacionActivity extends AppCompatActivity {
             address = direccion.get(0);
 
             nombre.setText(monumento.getNombre());
-            calle.setText(address.getThoroughfare());
+            calle.setText(address.getThoroughfare()==null?getString(R.string.noDisponible):address.getThoroughfare());
             comunidad.setText(monumento.getComunidad());
             provincia.setText(monumento.getProvincia());
             localidad.setText(monumento.getLocalidad());
