@@ -66,7 +66,9 @@ public class InformacionActivity extends AppCompatActivity {
         if(direccion!=null) {
             if (direccion.size() != 0) {
                 address = direccion.get(0);
-                calle.setText(address.getThoroughfare() == null ? getString(R.string.noDisponible) : address.getThoroughfare());
+                calle.setText(address.getThoroughfare());
+            }else{
+                calle.setText(getString(R.string.noDisponible));
             }
         }
 
