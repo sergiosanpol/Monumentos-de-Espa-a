@@ -36,9 +36,9 @@ public class ConsultasSQLite {
         long num_col = db.insert(EstructuraBBDD.TABLE_VISITAS_FUTURAS,null,values);
 
         if(num_col>0)
-            Toast.makeText(context, context.getString(R.string.insertado), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.insertado), Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(context, context.getString(R.string.yaExiste), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.yaExiste), Toast.LENGTH_SHORT).show();
     }
 
     /**
