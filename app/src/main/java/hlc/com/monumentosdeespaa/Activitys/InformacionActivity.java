@@ -1,14 +1,11 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,11 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import hlc.com.monumentosdeespaa.BBDDSQLite.BBDD_Helper;
 import hlc.com.monumentosdeespaa.BBDDSQLite.ConsultasSQLite;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.R;
