@@ -11,11 +11,6 @@
             android:entries="@array/listaUbIni"
             android:entryValues="@array/listaValUbIni" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefGuardarUb"
-            android:title="@string/guardaUb" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
