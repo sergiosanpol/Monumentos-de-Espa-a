@@ -41,7 +41,6 @@
     <string name="ubIni">Ubicación mostrada al inicio...</string>
     <string name="esp">España</string>
     <string name="miUb">Mi ubicación</string>
-    <string name="guardaUb">Guardar ubicación actual</string>
     <string name="busqueda">Búsqueda</string>
     <string name="radio">Radio de búsqueda...</string>
     <string name="quitarFuturasVisitas">: eliminado de futuras visitas</string>

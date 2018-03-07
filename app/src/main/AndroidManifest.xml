@@ -16,13 +16,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activitys.MainActivity" />
+        <activity android:name=".Activitys.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activitys.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,13 +32,16 @@
         </activity>
         <activity
             android:name=".Activitys.InformacionActivity"
-            android:theme="@style/AppTheme.Ventanas" />
+            android:theme="@style/AppTheme.Ventanas"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activitys.Preferencias"
-            android:theme="@style/AppTheme.Ventanas" />
+            android:theme="@style/AppTheme.Ventanas"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activitys.FuturasVisitasActivity"
-            android:theme="@style/AppTheme.Ventanas" />
+            android:theme="@style/AppTheme.Ventanas"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".Servicios.ServicioMonumentosCercanos" />
 
@@ -55,14 +59,18 @@
 
         <activity
             android:name=".Activitys.BuscadorActivity"
-            android:theme="@style/AppTheme.Ventanas" />
+            android:theme="@style/AppTheme.Ventanas"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activitys.MonumentosCercanos"
-            android:theme="@style/AppTheme.Ventanas" />
+            android:theme="@style/AppTheme.Ventanas"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Activitys.AyudaActivity"
-            android:theme="@style/AppTheme.Ventanas"/>
+            android:theme="@style/AppTheme.Ventanas"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Activitys.AcercaDeActivity"
-            android:theme="@style/AppTheme.Ventanas"></activity>
+            android:theme="@style/AppTheme.Ventanas"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

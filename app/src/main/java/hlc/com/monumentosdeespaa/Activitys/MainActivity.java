@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         //Si el menú está abierto
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT) && resultCode == RESULT_OK){
             //Cerrará el menú
             drawerLayout.closeDrawer(Gravity.LEFT);
         }
