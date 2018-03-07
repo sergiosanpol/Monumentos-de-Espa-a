@@ -1,6 +1,8 @@
 package hlc.com.monumentosdeespaa.Activitys;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -9,13 +11,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import hlc.com.monumentosdeespaa.BBDDSQLite.ConsultasSQLite;
+import hlc.com.monumentosdeespaa.Datos.Constantes;
 import hlc.com.monumentosdeespaa.Datos.Monumentos;
 import hlc.com.monumentosdeespaa.R;
 
@@ -23,6 +29,7 @@ public class InformacionActivity extends AppCompatActivity {
 
     private Monumentos monumento;
     private TextView nombre, comunidad, provincia, localidad,calle,datado;
+    private ImageView imagenMonumento;
     private Address address;
 
     @Override
@@ -42,6 +49,7 @@ public class InformacionActivity extends AppCompatActivity {
         provincia = (TextView) findViewById(R.id.provincia);
         localidad = (TextView) findViewById(R.id.localidad);
         datado = (TextView) findViewById(R.id.anno_construccion);
+        imagenMonumento = (ImageView) findViewById(R.id.imagenMonumento);
 
         //informacion para buscar la calle del monumento
         Geocoder geocoder = new Geocoder(this);
@@ -55,17 +63,19 @@ public class InformacionActivity extends AppCompatActivity {
         }
 
         //Mostramos la informacion
-        if(direccion!=null){
-            address = direccion.get(0);
+        if(direccion!=null) {
+            if (direccion.size() != 0) {
+                address = direccion.get(0);
+                calle.setText(address.getThoroughfare() == null ? getString(R.string.noDisponible) : address.getThoroughfare());
+            }
+        }
 
-            nombre.setText(monumento.getNombre());
-            calle.setText(address.getThoroughfare()==null?getString(R.string.noDisponible):address.getThoroughfare());
-            comunidad.setText(monumento.getComunidad());
-            provincia.setText(monumento.getProvincia());
-            localidad.setText(monumento.getLocalidad());
-        }else
-            Toast.makeText(this,getString(R.string.ErrorServidor),Toast.LENGTH_LONG).show();
+        nombre.setText(monumento.getNombre());
+        comunidad.setText(monumento.getComunidad());
+        provincia.setText(monumento.getProvincia());
+        localidad.setText(monumento.getLocalidad());
 
+        obtenerImagen();
     }
 
     /**
@@ -101,6 +111,59 @@ public class InformacionActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    /**
+     * Método que recupera las imagenes del servidor relacionadas con un monumento
+     */
+    private void obtenerImagen(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Creamos los objetos de conexión, donde recuperamos la imagen y la ruta del fichero
+                HttpURLConnection urlConnection = null;
+                final Bitmap bitmap;
+                String path = Constantes.IMAGENES + procesarString();
+
+                try{
+                    //Abrimos la conexión
+                    urlConnection = (HttpURLConnection) new URL(path).openConnection();
+                    urlConnection.connect();
+                    //Recuperamos la imagen devuelta mediante flujos
+                    bitmap = BitmapFactory.decodeStream(urlConnection.getInputStream());
+                    //Actualizamos la imagen utilizando el método que permite editar una vista desde el
+                    //hilo principal de la aplicación
+                    imagenMonumento.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imagenMonumento.setImageBitmap(bitmap);
+                        }
+                    });
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    if(urlConnection != null){
+                        urlConnection.disconnect();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Método que devuelve un String sin espacios, sin caracteres extraños y en minúsculas
+     * @return
+     */
+    private String procesarString(){
+        String stringFinal = monumento.getNombre().replace(" ", "+").toLowerCase();
+        stringFinal = stringFinal.replace("á", "a");
+        stringFinal = stringFinal.replace("é", "e");
+        stringFinal = stringFinal.replace("í", "i");
+        stringFinal = stringFinal.replace("ó", "o");
+        stringFinal = stringFinal.replace("ú", "u");
+        return stringFinal;
     }
 
 }
